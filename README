@@ -1,0 +1,9 @@
+There is some help in the file tgraph.txt , data samples are listed below.
+
+Example with 1D data: 
+psi.X0
+
+Examples with 2D data:
+psi.XY0
+rho_0862.vtk
+rho_0942.vtk

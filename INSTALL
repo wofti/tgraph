@@ -1,0 +1,9 @@
+INSTALLATION
+	Copy both tgraph.py and tdata.py into the same directory and make 
+	tgraph.py executable. 
+
+	Since tgraph.py is written in python, you also need to install
+	python, as well the python packages tkinter, tkinter.ttk, matplotlib
+	and numpy. tgraph.py was written for python3, but it will also run
+	with python2, only the terminal output will be uglier due to
+	differences in the print function between python versions.

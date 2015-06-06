@@ -1,0 +1,89 @@
+NAME
+	tgraph.py - plot 1D and 2D data files
+
+SYNOPSIS
+	tgraph.py [OPTION]... FILE... { FILE... } ... [ FILE... ]
+
+DESCRIPTION
+	Plot and animate data from files that contain multiple timeframes.
+	tgraph.py was inspired by ygraph. In addition to 2D plots, tgraph.py 
+	can also create 3D plots from 2D datafiles that are in text format
+	suitable for gnuplot's splot command (i.e. with empty lines between
+	blocks with different y-coordinates). It can also show 3D plots of
+	2D VTK datafiles in legacy format of type STRUCTURED_POINTS (where
+	one of the 3D DIMENSIONS has size 1) or of type STRUCTURED_GRID.
+
+OPTIONS
+	{ FILE... }
+		add columns from different files by enclosing files in { }
+
+	[ FILE... ]
+		add timeframes from different files by enclosing files in [ ]
+
+	-c XCOL:VCOL
+		Specify which columns of a file we use for a 2D plot. Can be 
+		specified for each file.
+
+	-c XCOL:YCOL:VCOL
+		Specify which columns of a file we use for a 3D plot. Can be
+		specified for each file.
+
+	-x XMIN:XMAX
+		Specify x-range for all all 2D and 3D plots.
+
+	-y YMIN:YMAX
+		Specify y-range for all 3D plots.
+
+	-v VMIN:VMAX
+		Specify value- or v-range for all 2D and 3D plots.
+
+	-s STRIDE
+		Specify stride (or step size) used to sample input data
+
+	-m
+		Mark each point
+
+EXAMPLES
+	select columns 1,2 in file1 and columns 1,4 of file2,file3 added
+	together:
+		tgraph.py -c 1:2 file1 -c 1:4 { file2 file3 }
+
+	select cols 1,2,4 from t1.vtk,t2.vtk,t3.vtk containing one timeframe
+	each:
+		tgraph.py -c 1:2:4 [ t1.vtk t2.vtk t3.vtk ]
+
+	select x- and value-ranges for data in file1 and mark points:
+		tgraph.py -x 1:5 -v 0:2 -m file1
+
+TIPS
+	If a dataset is split over several files it is possible to merge all
+	columns of these files by simply enclosing the relevant list of files
+	within curly brackets. Then tgraph.py can plot the relevant columns,
+	e.g. plot columns 1 and 4 from the file1 and file2 added together:
+		tgraph.py -c 1:4 { file1 file2 }
+
+	If different times in a file are not labeled by the word "time=" we
+	can use the sed utility to replace this word. E.g. if phi.x.asc
+	contains the word "Zeit" instead, we plot it like this:
+		sed 's/Zeit/time=/' phi.x.asc > f ; tgraph.py f
+
+	For a 3D plot we need to specify the -c argument. Many BAM VTK
+	files contain 4 columns (x, y, z, data). Then we need e.g.:
+		tgraph.py -c 1:2:4 [ gxx*.vtk ]
+
+FILES
+	tgraph.py imports tdata.py . To find it tdata.py should be in the
+	same directory as tgraph.py, usually the ~/bin directory.
+
+INSTALLATION
+	Copy both tgraph.py and tdata.py into the same directory
+	(e.g. ~/bin) and make tgraph.py executable (chmod a+x tgraph.py).
+
+	Since tgraph.py is written in python, you also need to install
+	python, as well the python packages tkinter, tkinter.ttk, matplotlib
+	and numpy. tgraph.py was written for python3, but it will also run
+	with python2, only the terminal output will be uglier due to
+	differences in the print function between python versions.
+
+AUTHORS
+	tgraph.py was written by Wolfgang Tichy
