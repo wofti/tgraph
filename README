@@ -1,9 +1,13 @@
-There is some help in the file tgraph.txt , data samples are listed below.
+There is some help in the file tgraph.txt.
 
-Example with 1D data: 
+Data file examples are in the directory called example-data. There is:
+
+Example with 1D data in ygraph format:
 psi.X0
 
-Examples with 2D data:
+Example with 2D data in format suitable for gnuplot's splot:
 psi.XY0
+
+Examples with 2D data in legacy VTK format of type STRUCTURED_POINTS:
 rho_0862.vtk
 rho_0942.vtk
