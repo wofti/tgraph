@@ -28,11 +28,11 @@ else:
   from tkinter.ttk import *  # overrides some tkinter stuff
   import tkinter.filedialog as filedialog
 
+# for 2d
+import matplotlib as mpl
 # for 3d
 from mpl_toolkits.mplot3d import  axes3d,Axes3D
 from matplotlib import cm
-# for 2d
-import matplotlib as mpl
 # for tkinter
 mpl.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
