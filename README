@@ -1,6 +1,16 @@
-There is some help in the file tgraph.txt.
+tgraph.py - plot 1D and 2D data files
+-------------------------------------
 
-Data file examples are in the directory called example-data. There is:
+Help and documentation is in the file tgraph.txt.
+
+Example to plot columns 1,2 of a text data file in ygraph format:
+tgraph.py -c 1:2 example-data/psi.X0
+
+Example to plot columns 1,2,4 of vtk data files:
+tgraph.py -c 1:2:4 [ example-data/rho_*.vtk ]
+
+
+The data file examples are in the directory called example-data. There is:
 
 Example with 1D data in ygraph format:
 psi.X0
