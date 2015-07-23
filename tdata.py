@@ -356,9 +356,14 @@ def read_raw_binary_vtk(file, npoints, double_prec):
 # read data from text file
 def read_raw_text_vtk(file, npoints):
   dat = []
-  for i in range(0, npoints):
+  i = 0
+  while i<npoints:
     line = file.readline()
-    dat.append(float(line))
+    # split line into a list li and append each element of li as float to dat
+    li = line.split()
+    for l in li:
+      dat.append(float(l))
+    i = i + len(li)
   vdata = np.array(dat)
   return vdata
 
