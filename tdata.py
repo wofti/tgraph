@@ -233,6 +233,7 @@ def load_vtk_STRUCTURED_GRID_data(filename):
     ny = 1
     nz = 1
     double_prec = 0
+    nPOINTS = 0
 
     # go over lines until POINTS
     while True:
@@ -265,6 +266,7 @@ def load_vtk_STRUCTURED_GRID_data(filename):
         nz = int(slist[2])
       (val,ok,EQsign) = getparameter(line.decode('ascii'), 'POINTS')
       if ok == 1:
+        nPOINTS = int( WT_atof(val) )
         p = val.find('double')
         if p >= 0:
           double_prec = 1
@@ -274,6 +276,8 @@ def load_vtk_STRUCTURED_GRID_data(filename):
     # once we get here, we have read the ASCII header for the points
     # and now the data for the grid points start
     npoints = nx*ny*nz
+    if(nPOINTS>0):
+      npoints = nPOINTS
     ncoords = npoints * 3   # there x,y,z coords for each point
     if BINARY == 1:
       vdata = read_raw_binary_vtk(f, ncoords, double_prec)
