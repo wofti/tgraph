@@ -38,6 +38,11 @@ def getparameter(line, par):
   ok = 0
   EQsign = 0
   p = line.find(par)
+  # make sure there is no letter in front the par name we find
+  if p > 0:
+    before = line[p-1:p]
+    if before.isalpha():
+      p=-1
   if p >= 0:
     ok = 1
     afterpar = line[p+len(par):]
