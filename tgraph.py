@@ -268,6 +268,7 @@ for i in range(0, len(filelist.file)):
   f = filelist.file[i]
   graph_legend[i+1] = f.name
 graph_legend['fontsize'] = mpl.rcParams['font.size']
+graph_legend['loc'] = 'upper right'
 
 # dictionaries with lines colors, styles and markers
 graph_linecolors = {}
@@ -343,7 +344,7 @@ def axplot2d_at_time(filelist, canvas, ax, t):
       tstr = tf % t
       ax.set_title(tstr, loc='right')
   if graph_legendOn == 1:
-    ax.legend(fontsize=graph_legend['fontsize']) # ax.legend() # (fontsize=8)
+    ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'])
   canvas.draw()
 
 # plot into ax at time t, in 3d
@@ -392,7 +393,7 @@ def axplot3d_at_time(filelist, canvas, ax, t):
       tstr = tf % t
       ax.set_title(tstr, loc='right')
   if graph_legendOn == 1:
-    ax.legend(fontsize=graph_legend['fontsize']) # ax.legend() # (fontsize=8)
+    ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'])
   canvas.draw()
 
 def replot():
@@ -669,9 +670,23 @@ def input_graph_legend():
   # for legend
   dialog = WTdialog("tgraph legends", graph_legend)
   graph_legend = dialog.input
+  # save names
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
     f.name = graph_legend[i+1]
+  # Check what loc has. It could be a string, an int, or a coordinate tuple.
+  s = graph_legend['loc']
+  if s.isdigit():
+    graph_legend['loc'] = int(s)
+  else:
+    pos = s.find(',')
+    if pos >= 0:
+      s = s.replace('[', ' ')
+      s = s.replace(']', ' ')
+      s = s.replace('(', ' ')
+      s = s.replace(')', ' ')
+      l = s.split(',')
+      graph_legend['loc'] = [ float(l[0]), float(l[1]) ]
   replot()
 
 # use WTdialog to reset legend
