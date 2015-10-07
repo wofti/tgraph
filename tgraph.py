@@ -264,8 +264,9 @@ graph_labels['linewidth'] = mpl.rcParams['lines.linewidth']
 graph_labels['timeformat'] = '%g'
 graph_legendOn = 0
 graph_legend = {}
-for f in filelist.file:
-  graph_legend[f.filename] = f.name
+for i in range(0, len(filelist.file)):
+  f = filelist.file[i]
+  graph_legend[i+1] = f.name
 graph_legend['fontsize'] = mpl.rcParams['font.size']
 
 ######################################################################
@@ -636,8 +637,9 @@ def input_graph_legend():
   # for legend
   dialog = WTdialog("tgraph legends", graph_legend)
   graph_legend = dialog.input
-  for f in filelist.file:
-    f.name = graph_legend[f.filename]
+  for i in range(0, len(filelist.file)):
+    f = filelist.file[i]
+    f.name = graph_legend[i+1]
   replot()
 
 # use WTdialog to reset legend
