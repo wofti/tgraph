@@ -269,6 +269,26 @@ for i in range(0, len(filelist.file)):
   graph_legend[i+1] = f.name
 graph_legend['fontsize'] = mpl.rcParams['font.size']
 
+# dictionaries with lines colors, styles and markers
+graph_linecolors = {}
+color_cycle = mpl.rcParams['axes.color_cycle']
+ncolors = len(color_cycle)
+j = 0
+for i in range(0, len(filelist.file)):
+  color = color_cycle[j]   # get color out of color_cycle
+  j = j + 1
+  if j >= ncolors: j = 0
+  graph_linecolors[i+1] = color
+
+graph_linestyles = {}
+for i in range(0, len(filelist.file)):
+  graph_linestyles[i+1] = '-'
+
+graph_linemarkers = {}
+marker = mpl.rcParams['lines.marker']
+for i in range(0, len(filelist.file)):
+  graph_linemarkers[i+1] = marker
+
 ######################################################################
 # functions
 
@@ -296,8 +316,11 @@ def axplot2d_at_time(filelist, canvas, ax, t):
   xscale = ax.get_xscale()
   yscale = ax.get_yscale()
   ax.clear()
-  for f in filelist.file:
-    ax.plot(f.data.getx(t), f.data.getv(t), label=f.name)
+  for i in range(0, len(filelist.file)):
+    f = filelist.file[i]
+    ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
+            color=graph_linecolors[i+1],
+            linestyle=graph_linestyles[i+1], marker=graph_linemarkers[i+1])
   ax.set_xlim(xlim)
   ax.set_ylim(ylim)
   ax.set_xscale(xscale)
