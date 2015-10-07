@@ -45,7 +45,7 @@ import tdata
 
 ######################################################################
 # tgraph version number
-tgraph_version = "1.2"
+tgraph_version = "1.3"
 print('tgraph', tgraph_version)
 
 ######################################################################
@@ -671,6 +671,33 @@ def edit_mpl_rcParams():
   mpl.rcParams = dialog.input
   replot()
 
+# use WTdialog to reset line colors
+def input_graph_linecolors():
+  global filelist
+  global graph_linecolors # dict. with options
+  # for legend
+  dialog = WTdialog("tgraph line colors", graph_linecolors)
+  graph_linecolors = dialog.input
+  replot()
+
+# use WTdialog to reset line colors
+def input_graph_linestyles():
+  global filelist
+  global graph_linestyles # dict. with options
+  # for legend
+  dialog = WTdialog("tgraph line styles", graph_linestyles)
+  graph_linestyles = dialog.input
+  replot()
+
+# use WTdialog to reset line markers
+def input_graph_linemarkers():
+  global filelist
+  global graph_linemarkers # dict. with options
+  # for legend
+  dialog = WTdialog("tgraph line markers", graph_linemarkers)
+  graph_linemarkers = dialog.input
+  replot()
+
 ######################################################################
 
 ######################################################################
@@ -706,6 +733,12 @@ labelsmenu.add_command(label="Edit labels", command=input_graph_labels)
 labelsmenu.add_command(label="Edit legend", command=input_graph_legend)
 #labelsmenu.add_command(label="Edit rcParams", command=edit_mpl_rcParams)
 menubar.add_cascade(label="Labels", menu=labelsmenu)
+
+linesmenu = Menu(menubar, tearoff=0)
+linesmenu.add_command(label="Edit line colors",  command=input_graph_linecolors)
+linesmenu.add_command(label="Edit line styles",  command=input_graph_linestyles)
+linesmenu.add_command(label="Edit line markers", command=input_graph_linemarkers)
+menubar.add_cascade(label="Lines", menu=linesmenu)
 
 # create help pulldown menu
 helpmenu = Menu(menubar, tearoff=0)
