@@ -289,6 +289,10 @@ marker = mpl.rcParams['lines.marker']
 for i in range(0, len(filelist.file)):
   graph_linemarkers[i+1] = marker
 
+graph_linewidths = {}
+for i in range(0, len(filelist.file)):
+  graph_linewidths[i+1] = ''
+
 ######################################################################
 # functions
 
@@ -318,9 +322,14 @@ def axplot2d_at_time(filelist, canvas, ax, t):
   ax.clear()
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
-    ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
-            color=graph_linecolors[i+1],
-            linestyle=graph_linestyles[i+1], marker=graph_linemarkers[i+1])
+    if str(graph_linewidths[i+1]) == '':
+      ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
+              color=graph_linecolors[i+1],
+              linestyle=graph_linestyles[i+1], marker=graph_linemarkers[i+1])
+    else:
+      ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
+              color=graph_linecolors[i+1], linewidth=graph_linewidths[i+1],
+              linestyle=graph_linestyles[i+1], marker=graph_linemarkers[i+1])
   ax.set_xlim(xlim)
   ax.set_ylim(ylim)
   ax.set_xscale(xscale)
@@ -698,6 +707,15 @@ def input_graph_linemarkers():
   graph_linemarkers = dialog.input
   replot()
 
+# use WTdialog to reset line widths
+def input_graph_linewidths():
+  global filelist
+  global graph_linewidths # dict. with options
+  # for legend
+  dialog = WTdialog("tgraph line widths", graph_linewidths)
+  graph_linewidths = dialog.input
+  replot()
+
 ######################################################################
 
 ######################################################################
@@ -738,6 +756,7 @@ linesmenu = Menu(menubar, tearoff=0)
 linesmenu.add_command(label="Edit line colors",  command=input_graph_linecolors)
 linesmenu.add_command(label="Edit line styles",  command=input_graph_linestyles)
 linesmenu.add_command(label="Edit line markers", command=input_graph_linemarkers)
+linesmenu.add_command(label="Edit line widths",  command=input_graph_linewidths)
 menubar.add_cascade(label="Lines", menu=linesmenu)
 
 # create help pulldown menu
