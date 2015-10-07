@@ -684,7 +684,6 @@ def edit_mpl_rcParams():
 def input_graph_linecolors():
   global filelist
   global graph_linecolors # dict. with options
-  # for legend
   dialog = WTdialog("tgraph line colors", graph_linecolors)
   graph_linecolors = dialog.input
   replot()
@@ -693,7 +692,6 @@ def input_graph_linecolors():
 def input_graph_linestyles():
   global filelist
   global graph_linestyles # dict. with options
-  # for legend
   dialog = WTdialog("tgraph line styles", graph_linestyles)
   graph_linestyles = dialog.input
   replot()
@@ -702,7 +700,6 @@ def input_graph_linestyles():
 def input_graph_linemarkers():
   global filelist
   global graph_linemarkers # dict. with options
-  # for legend
   dialog = WTdialog("tgraph line markers", graph_linemarkers)
   graph_linemarkers = dialog.input
   replot()
@@ -711,7 +708,6 @@ def input_graph_linemarkers():
 def input_graph_linewidths():
   global filelist
   global graph_linewidths # dict. with options
-  # for legend
   dialog = WTdialog("tgraph line widths", graph_linewidths)
   graph_linewidths = dialog.input
   replot()
