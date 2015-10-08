@@ -601,7 +601,8 @@ def about():
   top1 = Tk()
   top1.wm_title("About tgraph")
   str =  " tgraph " + tgraph_version + " \n\n"
-  str += "   Produce quick 2D or 3D graphs from files given on the command line. \n\n"
+  str += "   Produce quick 2D or 3D graphs from files given on the command line. \n"
+  str += "   Read the file tgraph.txt for help. \n\n"
   str += "   Copyright (C) 2015 Wolfgang Tichy. \n"
   l1 = Label(master=top1, text=str)
   l1.pack(side=TOP, expand=1)
