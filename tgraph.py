@@ -652,7 +652,7 @@ class WTdialog:
 def input_graph_labels():
   global graph_labels  # dict. with options
   # get graph_labels
-  dialog = WTdialog("tgraph labels", graph_labels)
+  dialog = WTdialog("tgraph Labels", graph_labels)
   # now get the user input back
   graph_labels = dialog.input
   mpl.rcParams['font.size'] = graph_labels['fontsize']
@@ -664,7 +664,7 @@ def input_graph_legend():
   global filelist
   global graph_legend # dict. with options
   # for legend
-  dialog = WTdialog("tgraph legends", graph_legend)
+  dialog = WTdialog("tgraph Legend", graph_legend)
   graph_legend = dialog.input
   # save names
   for i in range(0, len(filelist.file)):
@@ -695,7 +695,7 @@ def edit_mpl_rcParams():
 def input_graph_linecolors():
   global filelist
   global graph_linecolors # dict. with options
-  dialog = WTdialog("tgraph line colors", graph_linecolors)
+  dialog = WTdialog("tgraph Line Colors", graph_linecolors)
   graph_linecolors = dialog.input
   replot()
 
@@ -703,7 +703,7 @@ def input_graph_linecolors():
 def input_graph_linestyles():
   global filelist
   global graph_linestyles # dict. with options
-  dialog = WTdialog("tgraph line styles", graph_linestyles)
+  dialog = WTdialog("tgraph Line Styles", graph_linestyles)
   graph_linestyles = dialog.input
   replot()
 
@@ -711,7 +711,7 @@ def input_graph_linestyles():
 def input_graph_linemarkers():
   global filelist
   global graph_linemarkers # dict. with options
-  dialog = WTdialog("tgraph line markers", graph_linemarkers)
+  dialog = WTdialog("tgraph Line Markers", graph_linemarkers)
   graph_linemarkers = dialog.input
   replot()
 
@@ -719,7 +719,7 @@ def input_graph_linemarkers():
 def input_graph_linewidths():
   global filelist
   global graph_linewidths # dict. with options
-  dialog = WTdialog("tgraph line widths", graph_linewidths)
+  dialog = WTdialog("tgraph Line Widths", graph_linewidths)
   graph_linewidths = dialog.input
   replot()
 
