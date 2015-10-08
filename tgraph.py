@@ -589,12 +589,10 @@ def save_movieframes():
 def movie_message(name1, name2):
   top1 = Tk()
   top1.wm_title("Movie Frame Info")
-  str = "\nMovie Frames have been saved in the files\n"
+  str =  ' Movie Frames have been saved in the files: \n'
+  str += '   ' + name1 + ' ... ' + name2 + ' \n'
   l1 = Label(master=top1, text=str)
   l1.pack(side=TOP, expand=1)
-  str = name1 + ' ... ' + name2 + '\n'
-  l2 = Label(master=top1, text=str)
-  l2.pack(side=TOP, expand=1)
   button = Button(top1, text="Close", command=top1.destroy)
   button.pack(side=TOP)
   top1.mainloop()
@@ -602,15 +600,11 @@ def movie_message(name1, name2):
 def about():
   top1 = Tk()
   top1.wm_title("About tgraph")
-  str = "\ntgraph " + tgraph_version + "\n"
+  str =  " tgraph " + tgraph_version + " \n\n"
+  str += "   Produce quick 2D or 3D graphs from files given on the command line. \n\n"
+  str += "   Copyright (C) 2015 Wolfgang Tichy. \n"
   l1 = Label(master=top1, text=str)
   l1.pack(side=TOP, expand=1)
-  str = "Quick 2D or 3D graphs from files given on the command line.\n"
-  l2 = Label(master=top1, text=str)
-  l2.pack(side=TOP, expand=1)
-  str = "Copyright (C) 2015 Wolfgang Tichy\n"
-  l3 = Label(master=top1, text=str)
-  l3.pack(side=TOP, expand=1)
   button = Button(top1, text="Close", command=top1.destroy)
   button.pack(side=TOP)
   top1.mainloop()
