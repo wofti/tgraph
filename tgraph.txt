@@ -71,6 +71,19 @@ TIPS
 	files contain 4 columns (x, y, z, data). Then we need e.g.:
 		tgraph.py -c 1:2:4 [ gxx*.vtk ]
 
+	Once tgraph.py has loaded data and has started, various options are
+	available through a simple Tk user interface. One can change things
+	like line colors, styles or legend placement. All these are
+	matplotlib options which follow matplotlib naming conventions, e.g.
+	'b' for blue or '--' for a dashed line. You can find out more about
+	them by reading the matplotlib documentation.
+
+	In order to make a movie from an animation, tgraph.py can save
+	individual movie frames as png-images. These png-images can then be
+	used to make a movie with a tool like avconv, e.g. if you have
+	frame_00.png ... frame_72.png you can use:
+		avconv -r 10 -i frame_%02d.png  movie.avi
+
 FILES
 	tgraph.py imports tdata.py . To find it, tdata.py should be in the
 	same directory as tgraph.py, usually the ~/bin directory.
@@ -86,4 +99,7 @@ INSTALLATION
 	differences in the print function between python versions.
 
 AUTHORS
-	tgraph.py was written by Wolfgang Tichy
+	tgraph.py was written by Wolfgang Tichy.
+
+COPYRIGHT
+	Copyright (C) 2015 Wolfgang Tichy.
