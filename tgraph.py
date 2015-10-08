@@ -752,24 +752,24 @@ optionsmenu = Menu(menubar, tearoff=0)
 optionsmenu.add_command(label="Toggle log/lin x", command=toggle_log_xscale)
 optionsmenu.add_command(label="Toggle log/lin y", command=toggle_log_yscale)
 optionsmenu.add_command(label="Toggle 2D/3D", command=toggle_2d_3d)
-optionsmenu.add_command(label="Toggle wireframe/surface",
+optionsmenu.add_command(label="Toggle Wireframe/Surface",
                         command=toggle_wireframe_surface)
-optionsmenu.add_command(label="Toggle labels", command=toggle_labels)
-optionsmenu.add_command(label="Toggle legend", command=toggle_legend)
+optionsmenu.add_command(label="Toggle Labels", command=toggle_labels)
+optionsmenu.add_command(label="Toggle Legend", command=toggle_legend)
 #optionsmenu.add_command(label="Show Legend", command=draw_legend)
 menubar.add_cascade(label="Options", menu=optionsmenu)
 
 labelsmenu = Menu(menubar, tearoff=0)
-labelsmenu.add_command(label="Edit labels", command=input_graph_labels)
-labelsmenu.add_command(label="Edit legend", command=input_graph_legend)
+labelsmenu.add_command(label="Edit Labels", command=input_graph_labels)
+labelsmenu.add_command(label="Edit Legend", command=input_graph_legend)
 #labelsmenu.add_command(label="Edit rcParams", command=edit_mpl_rcParams)
 menubar.add_cascade(label="Labels", menu=labelsmenu)
 
 linesmenu = Menu(menubar, tearoff=0)
-linesmenu.add_command(label="Edit line colors",  command=input_graph_linecolors)
-linesmenu.add_command(label="Edit line styles",  command=input_graph_linestyles)
-linesmenu.add_command(label="Edit line markers", command=input_graph_linemarkers)
-linesmenu.add_command(label="Edit line widths",  command=input_graph_linewidths)
+linesmenu.add_command(label="Edit Line Colors",  command=input_graph_linecolors)
+linesmenu.add_command(label="Edit Line Styles",  command=input_graph_linestyles)
+linesmenu.add_command(label="Edit Line Markers", command=input_graph_linemarkers)
+linesmenu.add_command(label="Edit Line Widths",  command=input_graph_linewidths)
 menubar.add_cascade(label="Lines", menu=linesmenu)
 
 # create help pulldown menu
