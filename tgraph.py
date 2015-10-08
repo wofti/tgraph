@@ -559,6 +559,8 @@ def save_movieframes():
   # get filename
   fname = filedialog.asksaveasfilename(initialfile='frame.png',
                           title='Enter base movie frame name with extension')
+  if len(fname) == 0:  # if user presses cancel fname is () or '', so exit
+    return
   p = fname.rfind('.')
   if p >= 0:
     ext  = fname[p:]
