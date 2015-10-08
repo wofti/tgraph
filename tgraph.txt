@@ -64,7 +64,7 @@ TIPS
 
 	If different times in a file are not labeled by the word "time=" we
 	can use the sed utility to replace this word. E.g. if phi.x.asc
-	contains the word "Zeit" instead, we plot it like this:
+	contains the word "Zeit" instead, we can plot it like this:
 		sed 's/Zeit/time=/' phi.x.asc > f ; tgraph.py f
 
 	For a 3D plot we need to specify the -c argument. Many BAM VTK
@@ -72,7 +72,7 @@ TIPS
 		tgraph.py -c 1:2:4 [ gxx*.vtk ]
 
 FILES
-	tgraph.py imports tdata.py . To find it tdata.py should be in the
+	tgraph.py imports tdata.py . To find it, tdata.py should be in the
 	same directory as tgraph.py, usually the ~/bin directory.
 
 INSTALLATION
