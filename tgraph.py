@@ -266,7 +266,7 @@ graph_legendOn = 0
 graph_legend = {}
 for i in range(0, len(filelist.file)):
   f = filelist.file[i]
-  graph_legend[i+1] = f.name
+  graph_legend['#'+str(i)] = f.name
 graph_legend['fontsize'] = mpl.rcParams['font.size']
 graph_legend['loc']      = 'upper right'
 graph_legend['fancybox']     = mpl.rcParams['legend.fancybox']
@@ -284,20 +284,20 @@ for i in range(0, len(filelist.file)):
   color = color_cycle[j]   # get color out of color_cycle
   j = j + 1
   if j >= ncolors: j = 0
-  graph_linecolors[i+1] = color
+  graph_linecolors['#'+str(i)] = color
 
 graph_linestyles = {}
 for i in range(0, len(filelist.file)):
-  graph_linestyles[i+1] = '-'
+  graph_linestyles['#'+str(i)] = '-'
 
 graph_linemarkers = {}
 marker = mpl.rcParams['lines.marker']
 for i in range(0, len(filelist.file)):
-  graph_linemarkers[i+1] = marker
+  graph_linemarkers['#'+str(i)] = marker
 
 graph_linewidths = {}
 for i in range(0, len(filelist.file)):
-  graph_linewidths[i+1] = ''
+  graph_linewidths['#'+str(i)] = ''
 
 ######################################################################
 # functions
@@ -328,14 +328,17 @@ def axplot2d_at_time(filelist, canvas, ax, t):
   ax.clear()
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
-    if str(graph_linewidths[i+1]) == '':
+    if str(graph_linewidths['#'+str(i)]) == '':
       ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
-              color=graph_linecolors[i+1],
-              linestyle=graph_linestyles[i+1], marker=graph_linemarkers[i+1])
+              color=graph_linecolors['#'+str(i)],
+              linestyle=graph_linestyles['#'+str(i)],
+              marker=graph_linemarkers['#'+str(i)])
     else:
       ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
-              color=graph_linecolors[i+1], linewidth=graph_linewidths[i+1],
-              linestyle=graph_linestyles[i+1], marker=graph_linemarkers[i+1])
+              color=graph_linecolors['#'+str(i)],
+              linewidth=graph_linewidths['#'+str(i)],
+              linestyle=graph_linestyles['#'+str(i)],
+              marker=graph_linemarkers['#'+str(i)])
   ax.set_xlim(xlim)
   ax.set_ylim(ylim)
   ax.set_xscale(xscale)
@@ -626,7 +629,7 @@ class WTdialog:
     f0 = Frame(master=self.top)
     f0.pack(side=TOP, expand=1)
     row = 0
-    for key in formdict:
+    for key in sorted(formdict):
       label = key
       entry = formdict[key]
       l1 = Label(master=f0, text=label)
@@ -675,7 +678,7 @@ def input_graph_legend():
   # save names
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
-    f.name = graph_legend[i+1]
+    f.name = graph_legend['#'+str(i)]
   # Check what loc has. It could be a string, an int, or a coordinate tuple.
   s = graph_legend['loc']
   if s.isdigit():
