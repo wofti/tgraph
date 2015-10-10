@@ -268,7 +268,12 @@ for i in range(0, len(filelist.file)):
   f = filelist.file[i]
   graph_legend[i+1] = f.name
 graph_legend['fontsize'] = mpl.rcParams['font.size']
-graph_legend['loc'] = 'upper right'
+graph_legend['loc']      = 'upper right'
+graph_legend['fancybox']     = mpl.rcParams['legend.fancybox']
+graph_legend['shadow']       = mpl.rcParams['legend.shadow']
+graph_legend['frameon']      = mpl.rcParams['legend.frameon']
+graph_legend['framealpha']   = mpl.rcParams['legend.framealpha']
+graph_legend['handlelength'] = mpl.rcParams['legend.handlelength']
 
 # dictionaries with lines colors, styles and markers
 graph_linecolors = {}
@@ -684,6 +689,12 @@ def input_graph_legend():
       s = s.replace(')', ' ')
       l = s.split(',')
       graph_legend['loc'] = [ float(l[0]), float(l[1]) ]
+  # set some things in mpl.rcParams
+  mpl.rcParams['legend.fancybox']     = graph_legend['fancybox']
+  mpl.rcParams['legend.shadow']       = graph_legend['shadow']
+  mpl.rcParams['legend.frameon']      = graph_legend['frameon']
+  mpl.rcParams['legend.framealpha']   = graph_legend['framealpha']
+  mpl.rcParams['legend.handlelength'] = graph_legend['handlelength']
   replot()
 
 # use WTdialog to reset legend
