@@ -102,10 +102,13 @@ def linetype(line):
 def WT_atof(str):
   list = str.split()
   str1 = list[0]
-  try:
-    fl = float(str1)
-  except:
-    fl = 0.0
+  fl = 0.0
+  while len(str1)>0:
+    try:
+      fl = float(str1)
+      break
+    except:
+      str1 = str1[:-1]
   return fl
 
 
