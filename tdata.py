@@ -131,7 +131,7 @@ def determine_vtk_DATASET_type(filename):
 
 
 # load data from bam vtk file for Cartesian grids
-def load_vtk_STRUCTURED_POINTS_data(filename):
+def load_vtk_STRUCTURED_POINTS_data(filename, timestr):
   with open(filename, 'rb') as f:
     varname = ''
     time = '0'
@@ -158,7 +158,7 @@ def load_vtk_STRUCTURED_POINTS_data(filename):
         p = val.find(',')
         if p >= 1:
           varname = val[:p-1]
-      (val,ok,EQsign) = getparameter(line.lower().decode('ascii'), 'time')
+      (val,ok,EQsign) = getparameter(line.lower().decode('ascii'), timestr)
       if ok == 1:
         time = val
         p = val.find(',')
@@ -231,7 +231,7 @@ def load_vtk_STRUCTURED_POINTS_data(filename):
 
 
 # load data from bam vtk file for STRUCTURED_GRID (e.g. polar) grids
-def load_vtk_STRUCTURED_GRID_data(filename):
+def load_vtk_STRUCTURED_GRID_data(filename, timestr):
   with open(filename, 'rb') as f:
     varname = ''
     time = '0'
@@ -254,7 +254,7 @@ def load_vtk_STRUCTURED_GRID_data(filename):
         p = val.find(',')
         if p >= 1:
           varname = val[:p-1]
-      (val,ok,EQsign) = getparameter(line.lower().decode('ascii'), 'time')
+      (val,ok,EQsign) = getparameter(line.lower().decode('ascii'), timestr)
       if ok == 1:
         time = val
         p = val.find(',')
@@ -419,7 +419,7 @@ class tTimeFrameSet:
       t.append(ttf.time)
     return t   
 
-  def __init__(self, filename):
+  def __init__(self, filename, timestr):
     # make tTimeFrame for each time in file
     self.timeframes = []  # init timeframes
     # get extension from filename
@@ -436,18 +436,18 @@ class tTimeFrameSet:
       # print(DATASET)
       p = DATASET.find('STRUCTURED_GRID')
       if p >= 0:
-        (dat, time, bl) = load_vtk_STRUCTURED_GRID_data(filename)
+        (dat, time, bl) = load_vtk_STRUCTURED_GRID_data(filename, timestr)
       else:
-        (dat, time, bl) = load_vtk_STRUCTURED_POINTS_data(filename)
+        (dat, time, bl) = load_vtk_STRUCTURED_POINTS_data(filename, timestr)
       self.timeframes.append(tTimeFrame(dat, time, blocks=bl))
       # make a list with times from all timeframes
       self.timelist = self.get_timelist()
     else: # assume text files are used
       # print('TEXT file!')
-      self.append_textfile_data(filename)
+      self.append_textfile_data(filename, timestr)
 
   # read the data from a text file and append to self.timeframes
-  def append_textfile_data(self, filename):
+  def append_textfile_data(self, filename, timestr):
     with open(filename, 'r') as f:
     #f = open(filename, 'r')
       dat = []
@@ -456,7 +456,7 @@ class tTimeFrameSet:
       prev_was_nl = 0
       for line in f:
         # look for time
-        (iscomment, foundtime, time0) = linetype(line)
+        (iscomment, foundtime, time0) = linetype(line, timestr)
         if foundtime == 1:
           if prev_was_nl == 1:
             nl_num -= 1
@@ -615,12 +615,12 @@ class tFileList:
     self.file = []      # init file list
 
   # add a file to list
-  def add(self, filename):
+  def add(self, filename, timestr='time'):
     with open(filename, 'r') as f:
       filedata = FileData()
       filedata.filename = filename
       filedata.name = filename
-      filedata.data = tTimeFrameSet(filename)
+      filedata.data = tTimeFrameSet(filename, timestr)
       self.file.append(filedata)
 
   # remove a file at index i
