@@ -65,7 +65,7 @@ def getparameter(line, par):
 
 ################################################################
 # is line data or comment or time = ...
-def linetype(line):
+def linetype(line, timestr='time'):
   iscomment = 0
   foundtime = 0
   time = ''
@@ -76,7 +76,7 @@ def linetype(line):
   if lstart[0] == '#' or lstart[0] == '"' or lstart[0] == '%':
     iscomment = 1
   # look for time value
-  (time, ok, EQ) = getparameter(line.lower(), "time")
+  (time, ok, EQ) = getparameter(line.lower(), timestr)
   if len(time) > 0:
     time = time.split()[0]
   # see if we found time
