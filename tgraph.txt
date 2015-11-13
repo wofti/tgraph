@@ -37,11 +37,14 @@ OPTIONS
 	-v VMIN:VMAX
 		Specify value- or v-range for all 2D and 3D plots.
 
+	-t TIMELABEL
+		Specify string used to find timelabels in data files.
+
 	-s STRIDE
-		Specify stride (or step size) used to sample input data
+		Specify stride (or step size) used to sample input data.
 
 	-m
-		Mark each point
+		Mark each point.
 
 EXAMPLES
 	select columns 1,2 in file1 and columns 1,4 of file2,file3 added
