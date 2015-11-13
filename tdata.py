@@ -80,7 +80,8 @@ def linetype(line, timestr='time'):
   if len(time) > 0:
     time = time.split()[0]
   # see if we found time
-  if ok==1 and EQ==1:
+  # if ok==1 and EQ==1:
+  if ok==1:
     foundtime = 1
     # look for junk and cut it out
     l = len(time)
