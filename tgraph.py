@@ -45,7 +45,7 @@ import tdata
 
 ######################################################################
 # tgraph version number
-tgraph_version = "1.3"
+tgraph_version = "1.4"
 print('tgraph', tgraph_version)
 
 ######################################################################
@@ -70,6 +70,8 @@ gotx = 0
 goty = 0
 gotv = 0
 gots = 0
+gott = 0
+timelabel_str = 'time'
 got_xrange = 0
 got_yrange = 0
 got_vrange = 0
@@ -103,6 +105,11 @@ for argv in argvs:
   pos = argv.find('-s')
   if pos == 0:
     gots = 1
+    continue
+  # check for new -t opt
+  pos = argv.find('-t')
+  if pos == 0:
+    gott = 1
     continue
   # check for -m opt
   pos = argv.find('-m')
@@ -147,6 +154,11 @@ for argv in argvs:
     graph_stride = int(argv)
     gots = 0
     continue
+  # did we get -t opts?
+  if gott == 1:
+    timelabel_str = str(argv).lower()
+    gott = 0
+    continue
   # check for brackets, is there a '{' or a '}'
   pos = argv.find('{')
   if pos == 0:
@@ -175,7 +187,7 @@ for argv in argvs:
     endSBrack = 0
   else:
     # if we get here, there was no opt, so we have a filename
-    filelist.add(argv)
+    filelist.add(argv, timelabel_str)
     # print('cols:', xcol+1,ycol+1,zcol+1,':', vcol+1)
     print(filelist.file[-1].filename)
     #for tf in filelist.file[-1].data.timeframes:
@@ -220,6 +232,7 @@ if len(filelist.file) == 0:
   print('{ } one can add columns from different files by enclosing files in { }')
   print('[ ] one can add timeframes from different files by enclosing files in [ ]')
   print('-x , -y , -v  specify x-, y-, value-ranges, format is: -v vmin:vmax')
+  print('-t  specifies timelabel, default is -t time')
   print('-s  specifies stride (or step size) used to sample input data')
   print('-m  mark each point\n')
   print('Examples:')
