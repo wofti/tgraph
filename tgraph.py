@@ -45,7 +45,7 @@ import tdata
 
 ######################################################################
 # tgraph version number
-tgraph_version = "1.4"
+tgraph_version = "1.5"
 print('tgraph', tgraph_version)
 
 ######################################################################
@@ -242,7 +242,93 @@ if len(filelist.file) == 0:
   print('tgraph.py -s 10 -c 1:2:4 [ t1.vtk t2.vtk t3.vtk ]')
   print('# select x- and value-ranges for data in file1 and mark points:')
   print('tgraph.py -x 1:5 -v 0:2 -m file1')
+  # exit(1)
+
+######################################################################
+# root window for app
+root = Tk()
+root.wm_title("tgraph")
+
+######################################################################
+# init global dictionaries
+
+# dictionaries with labels and legend
+graph_labelsOn = 0
+graph_labels = {}
+graph_labels['title'] = ''
+graph_labels['x-axis'] = ''
+graph_labels['y-axis'] = ''
+graph_labels['v-axis'] = ''
+graph_labels['fontsize'] = mpl.rcParams['font.size']
+graph_labels['linewidth'] = mpl.rcParams['lines.linewidth']
+graph_labels['timeformat'] = '%g'
+graph_legendOn = 0
+graph_legend = {}
+graph_legend['fontsize'] = mpl.rcParams['font.size']
+graph_legend['loc']      = 'upper right'
+graph_legend['fancybox']     = mpl.rcParams['legend.fancybox']
+graph_legend['shadow']       = mpl.rcParams['legend.shadow']
+graph_legend['frameon']      = mpl.rcParams['legend.frameon']
+graph_legend['framealpha']   = mpl.rcParams['legend.framealpha']
+graph_legend['handlelength'] = mpl.rcParams['legend.handlelength']
+
+# dictionaries with lines colors, styles, markers and widths
+graph_linecolors = {}
+graph_linestyles = {}
+graph_linemarkers = {}
+graph_linewidths = {}
+
+######################################################################
+# functions needed early
+
+# function to add file by # to global dictionaries
+def set_graph_globals_for_file_i(filelist, i):
+  global graph_legend
+  global graph_linecolors
+  global graph_linestyles
+  global graph_linemarkers
+  global graph_linewidths
+  f = filelist.file[i]
+  graph_legend['#'+str(i)] = f.name
+  color_cycle = mpl.rcParams['axes.color_cycle']
+  ncolors = len(color_cycle)
+  graph_linecolors['#'+str(i)] = color_cycle[i%ncolors]
+  graph_linestyles['#'+str(i)] = '-'
+  marker = mpl.rcParams['lines.marker']
+  graph_linemarkers['#'+str(i)] = marker
+  graph_linewidths['#'+str(i)] = ''
+
+# specify a file graphically
+def open_file():
+  global filelist
+  global xcol
+  global ycol
+  global vcol
+  global timelabel_str
+  fname = filedialog.askopenfilename(title='Enter File Name')
+  if len(fname) == 0:  # if user presses cancel fname is () or '', so exit
+    return
+  filelist.add(fname, timelabel_str)
+  # print('cols:', xcol+1,ycol+1,zcol+1,':', vcol+1)
+  i = len(filelist.file)-1
+  print(filelist.file[i].filename)
+  # set cols for the last file added
+  filelist.file[i].data.set_cols(xcol=xcol, ycol=ycol, zcol=2, vcol=vcol)
+  set_graph_globals_for_file_i(filelist, i)
+
+######################################################################
+
+# no file was given on command line, ask for one now
+if len(filelist.file) == 0:
+  open_file()
+
+if len(filelist.file) == 0:
+  print('\nNo files found!')
   exit(1)
+
+# add all files to to global dictionaries
+for i in range(0, len(filelist.file)):
+  set_graph_globals_for_file_i(filelist, i)
 
 ######################################################################
 # set global vars
@@ -264,53 +350,6 @@ if got_vrange != 1:
   graph_vmax = filelist.maxv()
 graph_3dOn = 0
 graph_plot_surface = 0
-
-# dictionaries with labels and legend
-graph_labelsOn = 0
-graph_labels = {}
-graph_labels['title'] = ''
-graph_labels['x-axis'] = ''
-graph_labels['y-axis'] = ''
-graph_labels['v-axis'] = ''
-graph_labels['fontsize'] = mpl.rcParams['font.size']
-graph_labels['linewidth'] = mpl.rcParams['lines.linewidth']
-graph_labels['timeformat'] = '%g'
-graph_legendOn = 0
-graph_legend = {}
-for i in range(0, len(filelist.file)):
-  f = filelist.file[i]
-  graph_legend['#'+str(i)] = f.name
-graph_legend['fontsize'] = mpl.rcParams['font.size']
-graph_legend['loc']      = 'upper right'
-graph_legend['fancybox']     = mpl.rcParams['legend.fancybox']
-graph_legend['shadow']       = mpl.rcParams['legend.shadow']
-graph_legend['frameon']      = mpl.rcParams['legend.frameon']
-graph_legend['framealpha']   = mpl.rcParams['legend.framealpha']
-graph_legend['handlelength'] = mpl.rcParams['legend.handlelength']
-
-# dictionaries with lines colors, styles and markers
-graph_linecolors = {}
-color_cycle = mpl.rcParams['axes.color_cycle']
-ncolors = len(color_cycle)
-j = 0
-for i in range(0, len(filelist.file)):
-  color = color_cycle[j]   # get color out of color_cycle
-  j = j + 1
-  if j >= ncolors: j = 0
-  graph_linecolors['#'+str(i)] = color
-
-graph_linestyles = {}
-for i in range(0, len(filelist.file)):
-  graph_linestyles['#'+str(i)] = '-'
-
-graph_linemarkers = {}
-marker = mpl.rcParams['lines.marker']
-for i in range(0, len(filelist.file)):
-  graph_linemarkers['#'+str(i)] = marker
-
-graph_linewidths = {}
-for i in range(0, len(filelist.file)):
-  graph_linewidths['#'+str(i)] = ''
 
 ######################################################################
 # functions
@@ -572,6 +611,10 @@ def start_play_graph_time():
   update_graph_time_entry()
   root.after(int(graph_delay), play_graph_time)
 
+def open_and_plot_file():
+  open_file()
+  replot()
+
 def save_movieframes():
   global graph_time
   global graph_timeindex
@@ -670,6 +713,69 @@ class WTdialog:
     #self.top.quit()
     self.top.destroy()
 
+# use WTdialog to set xcols
+def input_graph_xcolumns():
+  global filelist
+  global graph_xmin
+  global graph_xmax
+  global fig
+  global graph_3dOn
+  global ax
+  xcoldict = {}
+  for i in range(0, len(filelist.file)):
+    xcoldict['#'+str(i)] = filelist.file[i].data.get_xcol0()+1
+  dialog = WTdialog("tgraph x-Column", xcoldict)
+  xcoldict = dialog.input
+  for i in range(0, len(filelist.file)):
+    filelist.file[i].data.set_xcols(int(xcoldict['#'+str(i)])-1)
+  graph_xmin = filelist.minx()
+  graph_xmax = filelist.maxx()
+  print('(xmin, xmax) =', '(', graph_xmin, ',', graph_xmax, ')')
+  ax = setup_axes(fig, graph_3dOn, ax)
+  replot()
+
+# use WTdialog to set ycols
+def input_graph_ycolumns():
+  global filelist
+  global graph_ymin
+  global graph_ymax
+  global fig
+  global graph_3dOn
+  global ax
+  ycoldict = {}
+  for i in range(0, len(filelist.file)):
+    ycoldict['#'+str(i)] = filelist.file[i].data.get_ycol0()+1
+  dialog = WTdialog("tgraph y-Column", ycoldict)
+  ycoldict = dialog.input
+  for i in range(0, len(filelist.file)):
+    filelist.file[i].data.set_ycols(int(ycoldict['#'+str(i)])-1)
+  graph_ymin = filelist.miny()
+  graph_ymax = filelist.maxy()
+  print('(ymin, ymax) =', '(', graph_ymin, ',', graph_ymax, ')')
+  ax = setup_axes(fig, graph_3dOn, ax)
+  replot()
+
+# use WTdialog to set vcols
+def input_graph_vcolumns():
+  global filelist
+  global graph_vmin
+  global graph_vmax
+  global fig
+  global graph_3dOn
+  global ax
+  vcoldict = {}
+  for i in range(0, len(filelist.file)):
+    vcoldict['#'+str(i)] = filelist.file[i].data.get_vcol0()+1
+  dialog = WTdialog("tgraph v-Column", vcoldict)
+  vcoldict = dialog.input
+  for i in range(0, len(filelist.file)):
+    filelist.file[i].data.set_vcols(int(vcoldict['#'+str(i)])-1)
+  graph_vmin = filelist.minv()
+  graph_vmax = filelist.maxv()
+  print('(vmin, vmax) =', '(', graph_vmin, ',', graph_vmax, ')')
+  ax = setup_axes(fig, graph_3dOn, ax)
+  replot()
+
 # use WTdialog to reset some labels
 def input_graph_labels():
   global graph_labels  # dict. with options
@@ -752,18 +858,15 @@ def input_graph_linewidths():
   replot()
 
 ######################################################################
-
+# except for root window all tk stuff follows below
 ######################################################################
-# root window for app
-root = Tk()
-root.wm_title("tgraph")
-
 # make menu bar
 menubar = Menu(root)
 
 # create a pulldown menu, and add it to the menu bar
 filemenu = Menu(menubar, tearoff=0)
 #filemenu.add_command(label="Open", command=not_implemented)
+filemenu.add_command(label="Open File", command=open_and_plot_file)
 filemenu.add_command(label="Save Movie Frames", command=save_movieframes)
 #filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.destroy)
@@ -771,6 +874,9 @@ menubar.add_cascade(label="File", menu=filemenu)
 
 # create more pulldown menus
 optionsmenu = Menu(menubar, tearoff=0)
+optionsmenu.add_command(label="Select x-Columns", command=input_graph_xcolumns)
+optionsmenu.add_command(label="Select y-Columns", command=input_graph_ycolumns)
+optionsmenu.add_command(label="Select v-Columns", command=input_graph_vcolumns)
 optionsmenu.add_command(label="Toggle log/lin x", command=toggle_log_xscale)
 optionsmenu.add_command(label="Toggle log/lin y", command=toggle_log_yscale)
 optionsmenu.add_command(label="Toggle 2D/3D", command=toggle_2d_3d)
