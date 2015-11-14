@@ -499,6 +499,26 @@ class tTimeFrameSet:
       ttf.zcol = zcol
       ttf.vcol = vcol
 
+  # set one of the values that say where data columns are
+  def set_xcols(self, col):
+    for ttf in self.timeframes: ttf.xcol = col
+  def set_ycols(self, col):
+    for ttf in self.timeframes: ttf.ycol = col
+  def set_zcols(self, col):
+    for ttf in self.timeframes: ttf.zcol = col
+  def set_vcols(self, col):
+    for ttf in self.timeframes: ttf.vcol = col
+
+  # return the values that say where data columns are
+  def get_xcol0(self):
+    return self.timeframes[0].xcol
+  def get_ycol0(self):
+    return self.timeframes[0].ycol
+  def get_zcol0(self):
+    return self.timeframes[0].zcol
+  def get_vcol0(self):
+    return self.timeframes[0].vcol
+
   def gettime_i(self, i):
     return self.timeframes[i].time
   def getx_i(self, i):
