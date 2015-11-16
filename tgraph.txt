@@ -29,7 +29,7 @@ OPTIONS
 		specified for each file.
 
 	-x XMIN:XMAX
-		Specify x-range for all all 2D and 3D plots.
+		Specify x-range for all 2D and 3D plots.
 
 	-y YMIN:YMAX
 		Specify y-range for all 3D plots.
