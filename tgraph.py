@@ -232,7 +232,7 @@ if len(filelist.file) == 0:
   print('{ } one can add columns from different files by enclosing files in { }')
   print('[ ] one can add timeframes from different files by enclosing files in [ ]')
   print('-x , -y , -v  specify x-, y-, value-ranges, format is: -v vmin:vmax')
-  print('-t  specifies timelabel, default is -t time')
+  print('-t  specifies timelabel, default is: -t time')
   print('-s  specifies stride (or step size) used to sample input data')
   print('-m  mark each point\n')
   print('Examples:')
