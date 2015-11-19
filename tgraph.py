@@ -305,7 +305,7 @@ def open_file():
   global ycol
   global vcol
   global timelabel_str
-  fname = filedialog.askopenfilename(title='Enter File Name')
+  fname = filedialog.askopenfilename(title='Enter Data File Name')
   if len(fname) == 0:  # if user presses cancel fname is () or '', so exit
     return
   filelist.add(fname, timelabel_str)
@@ -323,7 +323,7 @@ if len(filelist.file) == 0:
   open_file()
 
 if len(filelist.file) == 0:
-  print('\nNo files found!')
+  # print('\nNo files found!')
   exit(1)
 
 # add all files to to global dictionaries
