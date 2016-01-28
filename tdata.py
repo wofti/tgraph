@@ -101,6 +101,8 @@ def linetype(line, timestr='time'):
 ################################################################
 # convert a string to float similar to C's atof
 def WT_atof(str):
+  if len(str) == 0:
+    return 0.0
   list = str.split()
   str1 = list[0]
   fl = 0.0
