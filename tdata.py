@@ -116,6 +116,26 @@ def WT_atof(str):
 
 
 ################################################################
+# pad jagged 2D list Ls
+def pad_jagged_2D_list(Ls, colsmin=2, padval=float('nan')):
+  rows = len(Ls)
+  maxrl = colsmin
+  pads = 0
+  # find max row len maxrl
+  for i in range(rows):
+    rl = len(Ls[i])
+    if rl>maxrl:
+      maxrl = rl
+  # pad all rows
+  for i in range(rows):
+    rl = len(Ls[i])
+    for j in range(maxrl-rl):
+      Ls[i].append(padval)
+      pads = pads + 1
+  return pads
+
+
+################################################################
 # functions to read simple VTK files
 
 # find out what kind of vtk file we have
@@ -467,6 +487,7 @@ class tTimeFrameSet:
           # if we found time but dat is not empty write we are at end
           # of timeframe
           if dat != []:
+            pad_jagged_2D_list(dat)
             dat = np.array(dat)
             self.timeframes.append(tTimeFrame(dat, time, blocks=nl_num+1))
             dat = []
@@ -486,6 +507,7 @@ class tTimeFrameSet:
           dat.append(row)
           prev_was_nl = 0
       # arrived at end of file, so write last piece of data
+      pad_jagged_2D_list(dat)
       dat = np.array(dat)
       if prev_was_nl == 1:
         nl_num -= 1
