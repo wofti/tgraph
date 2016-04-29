@@ -117,7 +117,7 @@ def WT_atof(str, strfl=0.0):
 
 ################################################################
 # pad jagged 2D list Ls
-def pad_jagged_2D_list(Ls, colsmin=2, padval=float('nan')):
+def pad_jagged_2D_list(Ls, colsmin=2, padval=0.0):
   rows = len(Ls)
   maxrl = colsmin
   pads = 0
