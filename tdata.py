@@ -100,12 +100,12 @@ def linetype(line, timestr='time'):
 
 ################################################################
 # convert a string to float similar to C's atof
-def WT_atof(str):
+def WT_atof(str, strfl=0.0):
   if len(str) == 0:
     return 0.0
   list = str.split()
   str1 = list[0]
-  fl = 0.0
+  fl = float(strfl)
   while len(str1)>0:
     try:
       fl = float(str1)
@@ -131,7 +131,7 @@ def pad_jagged_2D_list(Ls, colsmin=2, padval=float('nan')):
     rl = len(Ls[i])
     for j in range(maxrl-rl):
       Ls[i].append(padval)
-      pads = pads + 1
+      pads += 1
   return pads
 
 
@@ -477,6 +477,7 @@ class tTimeFrameSet:
       time = 0
       nl_num = 0
       prev_was_nl = 0
+      rowind = 0
       for line in f:
         # look for time
         (iscomment, foundtime, time0) = linetype(line, timestr)
@@ -493,6 +494,7 @@ class tTimeFrameSet:
             dat = []
             nl_num = 0
             prev_was_nl = 0
+            rowind = 0
           time = WT_atof(time0)
         elif iscomment == 1:
           pass
@@ -503,9 +505,10 @@ class tTimeFrameSet:
           prev_was_nl = 1
         else: # there is no time, so now we have a data row
           row = line.split() # make list from line
-          row = [WT_atof(n) for n in row]  # convert list to float
+          row = [WT_atof(n, strfl=rowind) for n in row] # convert list to float
           dat.append(row)
           prev_was_nl = 0
+          rowind += 1
       # arrived at end of file, so write last piece of data
       pad_jagged_2D_list(dat)
       dat = np.array(dat)
