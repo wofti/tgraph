@@ -477,7 +477,7 @@ class tTimeFrameSet:
       time = 0
       nl_num = 0
       prev_was_nl = 0
-      rowind = 0
+      lnum = 1
       for line in f:
         # look for time
         (iscomment, foundtime, time0) = linetype(line, timestr)
@@ -494,7 +494,7 @@ class tTimeFrameSet:
             dat = []
             nl_num = 0
             prev_was_nl = 0
-            rowind = 0
+            lnum = 1
           time = WT_atof(time0)
         elif iscomment == 1:
           pass
@@ -505,10 +505,10 @@ class tTimeFrameSet:
           prev_was_nl = 1
         else: # there is no time, so now we have a data row
           row = line.split() # make list from line
-          row = [WT_atof(n, strfl=rowind) for n in row] # convert list to float
+          row = [WT_atof(n, strfl=lnum) for n in row] # convert list to float
           dat.append(row)
           prev_was_nl = 0
-          rowind += 1
+        lnum += 1
       # arrived at end of file, so write last piece of data
       pad_jagged_2D_list(dat)
       dat = np.array(dat)
