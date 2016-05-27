@@ -226,21 +226,26 @@ def load_vtk_STRUCTURED_POINTS_data(filename, timestr):
     else:
       vdata = read_raw_text_vtk(f, npoints)
     # now make x,y,z coords for all points
-    # xr = np.linspace(x0, dx, nx-1)
-    # yr = np.linspace(y0, dy, ny-1)
-    # zr = np.linspace(z0, dz, nz-1)
-    xdata = []
-    ydata = []
-    zdata = []
+    # xr = np.linspace(x0, x0 + dx*(nx-1), nx)
+    # yr = np.linspace(y0, y0 + dy*(ny-1), ny)
+    # zr = np.linspace(z0, z0 + dz*(nz-1), nz)
+    # first make empty numpy array of the correct type
+    if double_prec == 1:
+      xyzdata = np.empty(3*npoints)
+    else:
+      xyzdata = np.empty(3*npoints, dtype=np.float32)
+    # now insert coords
+    ijk = 0
     for k in range(0,nz):
+      z = z0 + k*dz
       for j in range(0,ny):
+        y = y0 + j*dy
         for i in range(0,nx):
-          xdata.append(x0 + i*dx)
-          ydata.append(y0 + j*dy)
-          zdata.append(z0 + k*dz)
-    xdata = np.array(xdata)
-    ydata = np.array(ydata)
-    zdata = np.array(zdata)
+          xyzdata[ijk]   = x0 + i*dx
+          xyzdata[ijk+1] = y
+          xyzdata[ijk+2] = z
+          ijk += 3
+    xyzdata = xyzdata.reshape(-1,3)
     # figure out blocking for mesh grid
     if nz == 1:
       blocks = ny
@@ -248,8 +253,7 @@ def load_vtk_STRUCTURED_POINTS_data(filename, timestr):
       blocks = nz
     else:
       blocks = nz
-    data = np.array([xdata, ydata, zdata, vdata])
-    data = data.transpose()
+    data = np.concatenate((xyzdata , vdata.reshape(-1,1)), axis=1)
     return (data, WT_atof(time), blocks)
 
 
@@ -315,17 +319,8 @@ def load_vtk_STRUCTURED_GRID_data(filename, timestr):
     else:
       vdata = read_raw_text_vtk(f, ncoords)
     # now read x,y,z coords for all points from vdata
-    xdata = []
-    ydata = []
-    zdata = []
-    for i in range(0,npoints):
-      xdata.append(vdata[i*3])
-      ydata.append(vdata[i*3 + 1])
-      zdata.append(vdata[i*3 + 2])
-    # convert to numpy arrays
-    xdata = np.array(xdata)
-    ydata = np.array(ydata)
-    zdata = np.array(zdata)
+    # e.g. xyzdata[11,0] is x-coord of point 11
+    xyzdata = vdata.reshape(-1,3)
     # figure out blocking for mesh grid
     if nz == 1:
       blocks = ny
@@ -361,8 +356,7 @@ def load_vtk_STRUCTURED_GRID_data(filename, timestr):
       vdata = read_raw_binary_vtk(f, npoints, double_prec)
     else:
       vdata = read_raw_text_vtk(f, npoints)
-    data = np.array([xdata, ydata, zdata, vdata])
-    data = data.transpose()
+    data = np.concatenate((xyzdata , vdata.reshape(-1,1)), axis=1)
     return (data, WT_atof(time), blocks)
 
 
@@ -375,17 +369,19 @@ def read_raw_binary_vtk(file, npoints, double_prec):
   if double_prec == 1:
     # read data into a byte string
     bstr = file.read(8*npoints)
-    # unpack bstr into tuple of C-floats, assuming big-endian (>) byte order
+    # unpack bstr into tuple of C-doubles, assuming big-endian (>) byte order
     fmt = '>%dd' % (npoints)
     dtuple = struct.unpack(fmt, bstr)
+    # convert tuple dtuple into numpy array
+    vdata = np.array(dtuple)
   else:
     # read data into a byte string
     bstr = file.read(4*npoints)
     # unpack bstr into tuple of C-floats, assuming big-endian (>) byte order
     fmt = '>%df' % (npoints)
     dtuple = struct.unpack(fmt, bstr)
-  # convert tuple dtu into numpy array
-  vdata = np.array(dtuple)
+    # convert tuple dtuple into numpy array
+    vdata = np.array(dtuple, dtype=np.float32)
   return vdata
 
 # read data from text file
