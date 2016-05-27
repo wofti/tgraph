@@ -584,51 +584,67 @@ class tTimeFrameSet:
 
   # get min and max of x
   def minx(self):
-    ml = []
-    for i in range(0, len(self.timelist)):
-      ml.append(min(self.getx_i(i)))
-    return min(ml)
+    m0 = self.getx_i(0).min()
+    for i in range(1, len(self.timelist)):
+      m = self.getx_i(i).min()
+      if m<m0:
+        m0 = m
+    return m0
   def maxx(self):
-    ml = []
-    for i in range(0, len(self.timelist)):
-      ml.append(max(self.getx_i(i)))
-    return max(ml)
+    m0 = self.getx_i(0).max()
+    for i in range(1, len(self.timelist)):
+      m = self.getx_i(i).max()
+      if m>m0:
+        m0 = m
+    return m0
 
   # get min and max of y
   def miny(self):
-    ml = []
-    for i in range(0, len(self.timelist)):
-      ml.append(min(self.gety_i(i)))
-    return min(ml)
+    m0 = self.gety_i(0).min()
+    for i in range(1, len(self.timelist)):
+      m = self.gety_i(i).min()
+      if m<m0:
+        m0 = m
+    return m0
   def maxy(self):
-    ml = []
-    for i in range(0, len(self.timelist)):
-      ml.append(max(self.gety_i(i)))
-    return max(ml)
+    m0 = self.gety_i(0).max()
+    for i in range(1, len(self.timelist)):
+      m = self.gety_i(i).max()
+      if m>m0:
+        m0 = m
+    return m0
 
   # get min and max of z
   def minz(self):
-    ml = []
-    for i in range(0, len(self.timelist)):
-      ml.append(min(self.getz_i(i)))
-    return min(ml)
+    m0 = self.getz_i(0).min()
+    for i in range(1, len(self.timelist)):
+      m = self.getz_i(i).min()
+      if m<m0:
+        m0 = m
+    return m0
   def maxz(self):
-    ml = []
-    for i in range(0, len(self.timelist)):
-      ml.append(max(self.getz_i(i)))
-    return max(ml)
+    m0 = self.getz_i(0).max()
+    for i in range(1, len(self.timelist)):
+      m = self.getz_i(i).max()
+      if m>m0:
+        m0 = m
+    return m0
 
   # get min and max of v
   def minv(self):
-    ml = []
-    for i in range(0, len(self.timelist)):
-      ml.append(min(self.getv_i(i)))
-    return min(ml)
+    m0 = self.getv_i(0).min()
+    for i in range(1, len(self.timelist)):
+      m = self.getv_i(i).min()
+      if m<m0:
+        m0 = m
+    return m0
   def maxv(self):
-    ml = []
-    for i in range(0, len(self.timelist)):
-      ml.append(max(self.getv_i(i)))
-    return max(ml)
+    m0 = self.getv_i(0).max()
+    for i in range(1, len(self.timelist)):
+      m = self.getv_i(i).max()
+      if m>m0:
+        m0 = m
+    return m0
 
   # merge with other timeframeset
   def merge_with(self, tfs2):
