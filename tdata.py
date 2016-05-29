@@ -101,11 +101,11 @@ def linetype(line, timestr='time'):
 ################################################################
 # convert a string to float similar to C's atof
 def WT_atof(str, strfl=0.0):
+  fl = float(strfl)
   if len(str) == 0:
-    return 0.0
+    return fl
   list = str.split()
   str1 = list[0]
-  fl = float(strfl)
   while len(str1)>0:
     try:
       fl = float(str1)
@@ -471,6 +471,7 @@ class tTimeFrameSet:
     #f = open(filename, 'r')
       dat = []
       time = 0
+      tnum = 1 # time number
       nl_num = 0
       prev_was_nl = 0
       lnum = 1
@@ -481,8 +482,8 @@ class tTimeFrameSet:
           if prev_was_nl == 1:
             nl_num -= 1
           prev_was_nl = 0  
-          # if we found time but dat is not empty write we are at end
-          # of timeframe
+          # if we found time but dat is not empty write. We are at end
+          # of timeframe.
           if dat != []:
             pad_jagged_2D_list(dat)
             dat = np.array(dat)
@@ -491,7 +492,8 @@ class tTimeFrameSet:
             nl_num = 0
             prev_was_nl = 0
             lnum = 1
-          time = WT_atof(time0)
+          time = WT_atof(time0, strfl=tnum)
+          tnum += 1
         elif iscomment == 1:
           pass
         elif line.isspace():  # e.g. if line == '\n':
