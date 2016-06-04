@@ -926,7 +926,7 @@ menubar.add_cascade(label="Lines", menu=linesmenu)
 
 
 transformationsmenu = Menu(menubar, tearoff=0)
-transformationsmenu.add_command(label="Transform Colmuns",
+transformationsmenu.add_command(label="Transform Columns",
                                 command=input_graph_coltrafos)
 menubar.add_cascade(label="Transformations", menu=transformationsmenu)
 
