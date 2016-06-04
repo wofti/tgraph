@@ -447,8 +447,12 @@ class tTimeFrame:
     ncols = self.data.shape[1]
     # add extra cols if datacol does not exist yet
     ecols = datacol - ncols + 1
+    #print(self.data.shape)
+    #print(datacol, ncols, ecols)
     if ecols > 0:
       self.add_empty_cols(ecols=ecols)
+    #print(self.data.shape)
+    ncols = self.data.shape[1]
     # put all cols in c[i]
     c = []
     for i in range(c_index_shift):
