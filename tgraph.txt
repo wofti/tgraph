@@ -81,6 +81,12 @@ TIPS
 	'b' for blue or '--' for a dashed line. You can find out more about
 	them by reading the matplotlib documentation.
 
+	If we click on "Transform Columns", we can transform data columns in
+	each file. E.g. to set column 3 to twice column 2 plus sin(t), we
+	can just enter "c[3] = 2*c[2] + sin(t)" in the pop-up window.
+	In order to then plot column 3 we can click on "Select v-Columns" and
+	enter "3".
+
 	In order to make a movie from an animation, tgraph.py can save
 	individual movie frames as png-images. These png-images can then be
 	used to make a movie with a tool like avconv, e.g. if you have
