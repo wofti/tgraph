@@ -426,6 +426,12 @@ class tTimeFrame:
   def merge_with(self, tf2):
     self.data = np.concatenate((self.data, tf2.data), axis=1)
 
+  # add ecols empty cols to data
+  def add_empty_cols(self, ecols=1):
+    nrows = self.data.shape[0]
+    edata = np.empty(nrows*ecols, dtype=self.data.dtype)
+    newdata = np.concatenate((self.data, edata.reshape(-1,ecols)), axis=1)
+    self.data = newdata
 
 ################################################################
 # several time frames and their meta data
@@ -662,6 +668,10 @@ class tTimeFrameSet:
     # make a list with times from all timeframes
     self.timelist = self.get_timelist()
 
+  # add ecols empty cols to the entire set
+  def add_empty_cols(self, ecols=1):
+    for ttf in self.timeframes: 
+      ttf.add_empty_cols(ecols)
 
 ################################################################
 # a structure to hold file names and their data
