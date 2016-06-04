@@ -433,6 +433,33 @@ class tTimeFrame:
     newdata = np.concatenate((self.data, edata.reshape(-1,ecols)), axis=1)
     self.data = newdata
 
+  # transform according to string in trafo, e.g. trafo = 'c[3] = 2*c[1]'
+  def transform_col(self, trafo, c_index_shift=0):
+    if len(trafo)<6:
+      return
+    # find col num in first arg
+    s0 = trafo.split(']')[0]
+    s1 = s0.split('[')[1]
+    col = int(s1)
+    # col index in actual data
+    datacol = col - c_index_shift
+    # number of cols
+    ncols = self.data.shape[1]
+    # add extra cols if datacol does not exist yet
+    ecols = datacol - ncols + 1
+    if ecols > 0:
+      self.add_empty_cols(ecols=ecols)
+    # put all cols in c[i]
+    c = []
+    for i in range(c_index_shift):
+      c.append(self.data[:,0])
+    for i in range(ncols):
+      c.append(self.data[:,i])
+    # exec code in trafo
+    exec(trafo)
+    # put c[col] back in data
+    self.data[:,datacol] = c[col]
+
 ################################################################
 # several time frames and their meta data
 class tTimeFrameSet:
@@ -671,7 +698,12 @@ class tTimeFrameSet:
   # add ecols empty cols to the entire set
   def add_empty_cols(self, ecols=1):
     for ttf in self.timeframes: 
-      ttf.add_empty_cols(ecols)
+      ttf.add_empty_cols(ecols=ecols)
+
+  # transform col in entire set
+  def transform_col(self, trafo, c_index_shift=0):
+    for ttf in self.timeframes: 
+      ttf.transform_col(trafo, c_index_shift=c_index_shift)
 
 ################################################################
 # a structure to hold file names and their data
