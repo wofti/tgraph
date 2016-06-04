@@ -14,6 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# directly import some math funcs from numpy into local namespace
+from numpy import arccos, ceil, frexp, radians, arccosh, copysign, exp, log, \
+  sin, arcsin, cos, expm1, log10, sinh, arcsinh, cosh, fabs, log1p, sqrt, \
+  arctan, degrees, isinf, modf, tan, arctan2, e, floor, \
+  isnan, pi, tanh, arctanh, fmod, ldexp, power, trunc
 import numpy as np
 import struct
 
