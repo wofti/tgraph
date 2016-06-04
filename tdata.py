@@ -438,10 +438,13 @@ class tTimeFrame:
     newdata = np.concatenate((self.data, edata.reshape(-1,ecols)), axis=1)
     self.data = newdata
 
-  # transform according to string in trafo, e.g. trafo = 'c[3] = 2*c[1]'
+  # transform according to string in trafo, e.g. trafo = 'c[3] = 2*c[2] + t'
   def transform_col(self, trafo, c_index_shift=0):
     if len(trafo)<6:
       return
+    # set time
+    t = self.time
+    time = t
     # find col num in first arg
     s0 = trafo.split(']')[0]
     s1 = s0.split('[')[1]

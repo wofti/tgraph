@@ -874,10 +874,10 @@ def input_graph_coltrafos():
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
     trafo = str(graph_coltrafos['#'+str(i)])
-    # print(trafo)
     if trafo == '':
       continue
     else:
+      print("Trafo:", trafo, "; for", f.name)
       f.data.transform_col(trafo, c_index_shift=1)
   replot()
 
