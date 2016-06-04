@@ -45,7 +45,7 @@ import tdata
 
 ######################################################################
 # tgraph version number
-tgraph_version = "1.5"
+tgraph_version = "1.6"
 print('tgraph', tgraph_version)
 
 ######################################################################
@@ -278,6 +278,9 @@ graph_linestyles = {}
 graph_linemarkers = {}
 graph_linewidths = {}
 
+# dictionaries with transformations
+graph_coltrafos = {}
+
 ######################################################################
 # functions needed early
 
@@ -288,6 +291,7 @@ def set_graph_globals_for_file_i(filelist, i):
   global graph_linestyles
   global graph_linemarkers
   global graph_linewidths
+  global graph_coltrafos
   f = filelist.file[i]
   graph_legend['#'+str(i)] = f.name
   # FIXME: axes.color_cycle is deprecated in Matplotlib 1.5.0, use axes.prop_cycle
@@ -298,6 +302,7 @@ def set_graph_globals_for_file_i(filelist, i):
   marker = mpl.rcParams['lines.marker']
   graph_linemarkers['#'+str(i)] = marker
   graph_linewidths['#'+str(i)] = ''
+  graph_coltrafos['#'+str(i)] = ''
 
 # specify a file graphically
 def open_file():
@@ -858,6 +863,24 @@ def input_graph_linewidths():
   graph_linewidths = dialog.input
   replot()
 
+# use WTdialog to do transformations on columns
+def input_graph_coltrafos():
+  global filelist
+  global graph_coltrafos # dict. with trafos
+  dialog = WTdialog("tgraph Column Transformations, e.g. c[3] = 2*c[2]",
+                    graph_coltrafos)
+  graph_coltrafos = dialog.input
+  # print(graph_coltrafos)
+  for i in range(0, len(filelist.file)):
+    f = filelist.file[i]
+    trafo = str(graph_coltrafos['#'+str(i)])
+    # print(trafo)
+    if trafo == '':
+      continue
+    else:
+      f.data.transform_col(trafo, c_index_shift=1)
+  replot()
+
 ######################################################################
 # except for root window all tk stuff follows below
 ######################################################################
@@ -900,6 +923,13 @@ linesmenu.add_command(label="Edit Line Styles",  command=input_graph_linestyles)
 linesmenu.add_command(label="Edit Line Markers", command=input_graph_linemarkers)
 linesmenu.add_command(label="Edit Line Widths",  command=input_graph_linewidths)
 menubar.add_cascade(label="Lines", menu=linesmenu)
+
+
+transformationsmenu = Menu(menubar, tearoff=0)
+transformationsmenu.add_command(label="Transform Colmuns",
+                                command=input_graph_coltrafos)
+menubar.add_cascade(label="Transformations", menu=transformationsmenu)
+
 
 # create help pulldown menu
 helpmenu = Menu(menubar, tearoff=0)
