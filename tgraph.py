@@ -867,8 +867,10 @@ def input_graph_linewidths():
 def input_graph_coltrafos():
   global filelist
   global graph_coltrafos # dict. with trafos
-  dialog = WTdialog("tgraph Column Transformations, e.g. c[3] = 2*c[2] + sin(t)",
-                    graph_coltrafos)
+  dialog = WTdialog(
+    "tgraph Column Transformations, "
+    "e.g. c[3] = 2*c[2] + sin(t) +  D(c[2])/D(c[1])",
+    graph_coltrafos)
   graph_coltrafos = dialog.input
   # print(graph_coltrafos)
   for i in range(0, len(filelist.file)):

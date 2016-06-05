@@ -23,6 +23,20 @@ import numpy as np
 import struct
 
 ################################################################
+# return 2nd order diff of 1d numpy array
+# we can get dy/dx from D(y)/D(x)
+def D(x):
+  N = len(x)
+  dx = np.zeros(N)
+  if N<2:
+    return dx
+  for i in range(1, N-1):
+    dx[i] = x[i+1] - x[i-1]
+  dx[0]   = x[1] - x[0]
+  dx[N-1] = x[N-1] - x[N-2]
+  return dx
+
+################################################################
 # find listindex at or below t
 def geti_at_or_below_t(timelist, t):
   imax = len(timelist)
