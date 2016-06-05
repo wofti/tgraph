@@ -877,7 +877,7 @@ def input_graph_coltrafos():
     if trafo == '':
       continue
     else:
-      print("Trafo:", trafo, "; for", f.name)
+      print("transform", '#'+str(i)+':', trafo)
       f.data.transform_col(trafo, c_index_shift=1)
   replot()
 
