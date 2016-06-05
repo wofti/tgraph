@@ -31,7 +31,7 @@ def D(x):
   if N<2:
     return dx
   for i in range(1, N-1):
-    dx[i] = x[i+1] - x[i-1]
+    dx[i] = (x[i+1] - x[i-1])*0.5
   dx[0]   = x[1] - x[0]
   dx[N-1] = x[N-1] - x[N-2]
   return dx
