@@ -530,6 +530,7 @@ class tTimeFrameSet:
     #f = open(filename, 'r')
       dat = []
       time = 0
+      time_n = -1e+300 # new time found in file
       tnum = 1 # time number
       nl_num = 0
       prev_was_nl = 0
@@ -551,7 +552,16 @@ class tTimeFrameSet:
             nl_num = 0
             prev_was_nl = 0
             lnum = 1
-          time = WT_atof(time0, strfl=tnum)
+          # save old time and then get new time
+          time_o = time_n
+          time_n = WT_atof(time0, strfl=tnum)
+          # if time_o == time_n increase time by a little bit
+          if time_o == time_n:
+            if time == 0.0:
+              time = 1e-300
+            time = 1.00000000000001 * time
+          else: # if time_o != time_n, set time to new time
+            time = time_n
           tnum += 1
         elif iscomment == 1:
           pass
