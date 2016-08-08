@@ -566,12 +566,14 @@ class tTimeFrameSet:
           dat.append(row)
           prev_was_nl = 0
         lnum += 1
-      # arrived at end of file, so write last piece of data
-      pad_jagged_2D_list(dat)
-      dat = np.array(dat)
-      if prev_was_nl == 1:
-        nl_num -= 1
-      self.timeframes.append(tTimeFrame(dat, time, blocks=nl_num+1))
+      # arrived at end of file, 
+      # so write last piece of data, if it's not empty:
+      if dat != []:
+        pad_jagged_2D_list(dat)
+        dat = np.array(dat)
+        if prev_was_nl == 1:
+          nl_num -= 1
+        self.timeframes.append(tTimeFrame(dat, time, blocks=nl_num+1))
     # make a list with times from all timeframes
     self.timelist = self.get_timelist()
 
