@@ -58,6 +58,9 @@ EXAMPLES
 	select x- and value-ranges for data in file1 and mark points:
 		tgraph.py -x 1:5 -v 0:2 -m file1
 
+	plot cols 10,13 of a Cactus .asc file using "iteration" as timelabel:
+		tgraph.py -t "iteration" -c 10:13 rho.x.asc
+
 TIPS
 	If a dataset is split over several files it is possible to merge all
 	columns of these files by simply enclosing the relevant list of files
@@ -65,14 +68,19 @@ TIPS
 	e.g. plot columns 1 and 4 from the file1 and file2 added together:
 		tgraph.py -c 1:4 { file1 file2 }
 
-	If the word "time" occurs in comments, but is not a timelabel, we
-	can use the sed utility to replace it. E.g. if rho.x.asc contains
-	the word "9:time", we can plot it like this:
-		sed 's/9:time/9:Zeit/' rho.x.asc > f ; tgraph.py f
-
 	For a 3D plot we need to specify the -c argument. Many BAM VTK
 	files contain 4 columns (x, y, z, data). Then we need e.g.:
 		tgraph.py -c 1:2:4 [ gxx*.vtk ]
+
+	If the word "time" occurs in comments, but is not a timelabel, we
+	can use the sed utility to replace it. This happens a lot in .asc
+	files from Cactus. E.g. if rho.x.asc contains the word "9:time",
+	we can plot it like this:
+		sed 's/9:time/9:Zeit/' rho.x.asc > f ; tgraph.py f
+
+	To plot Cactus .asc files it is often best to use the word
+	"iteration" as timelabel, e.g.:
+		tgraph.py -t "iteration" -c 10:13 rho.x.asc
 
 	Once tgraph.py has loaded data and has started, various options are
 	available through a simple Tk user interface. One can change things
