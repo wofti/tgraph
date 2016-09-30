@@ -294,10 +294,15 @@ def set_graph_globals_for_file_i(filelist, i):
   global graph_coltrafos
   f = filelist.file[i]
   graph_legend['#'+str(i)] = f.name
-  # FIXME: axes.color_cycle is deprecated in Matplotlib 1.5.0, use axes.prop_cycle
-  color_cycle = mpl.rcParams['axes.color_cycle']
-  ncolors = len(color_cycle)
-  graph_linecolors['#'+str(i)] = color_cycle[i%ncolors]
+  # can we use axes.prop_cycle ?
+  if mpl.__version__ < '1.5.1': # use axes.color_cycle below Matplotlib 1.5.1
+    color_cycle = mpl.rcParams['axes.color_cycle']
+    ncolors = len(color_cycle)
+    graph_linecolors['#'+str(i)] = color_cycle[i%ncolors]
+  else: # use axes.prop_cycle for all other versions
+    cycle_list = list(mpl.rcParams['axes.prop_cycle'])
+    ncolors = len(cycle_list)
+    graph_linecolors['#'+str(i)] = cycle_list[i%ncolors]['color']
   graph_linestyles['#'+str(i)] = '-'
   marker = mpl.rcParams['lines.marker']
   graph_linemarkers['#'+str(i)] = marker
