@@ -409,6 +409,14 @@ def read_raw_text_vtk(file, npoints):
   i = 0
   while i<npoints:
     line = file.readline()
+    if not line:
+      print(file)
+      print('read_raw_text_vtk: npoints =', npoints,
+            '. But EOF already at i = ', i)
+      print('appending zeros...')
+      for k in range(i, npoints):
+        dat.append(0.0)
+      break
     # split line into a list li and append each element of li as float to dat
     li = line.split()
     for l in li:
