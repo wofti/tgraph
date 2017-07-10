@@ -407,8 +407,8 @@ def axplot2d_at_time(filelist, canvas, ax, t):
   ax.set_xscale(xscale)
   ax.set_yscale(yscale)
   if graph_labelsOn == 1:
-    ax.set_xlabel(graph_labels['x-axis'])
-    ax.set_ylabel(graph_labels['v-axis'])
+    ax.set_xlabel(graph_labels['x-axis'], fontsize=graph_labels['fontsize'])
+    ax.set_ylabel(graph_labels['v-axis'], fontsize=graph_labels['fontsize'])
     ax.set_title(graph_labels['title'])
     tf = graph_labels['timeformat']
     if len(tf) > 0:
@@ -455,9 +455,9 @@ def axplot3d_at_time(filelist, canvas, ax, t):
   ax.set_ylim(graph_ymin, graph_ymax)
   ax.set_zlim(graph_vmin, graph_vmax)
   if graph_labelsOn == 1:
-    ax.set_xlabel(graph_labels['x-axis'])
-    ax.set_ylabel(graph_labels['y-axis'])
-    ax.set_zlabel(graph_labels['v-axis'])
+    ax.set_xlabel(graph_labels['x-axis'], fontsize=graph_labels['fontsize'])
+    ax.set_ylabel(graph_labels['y-axis'], fontsize=graph_labels['fontsize'])
+    ax.set_zlabel(graph_labels['v-axis'], fontsize=graph_labels['fontsize'])
     ax.set_title(graph_labels['title'])
     tf = graph_labels['timeformat']
     if len(tf) > 0:
