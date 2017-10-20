@@ -345,7 +345,7 @@ for i in range(0, len(filelist.file)):
 # set global vars
 graph_time = filelist.mintime()
 graph_timelist = filelist.get_timelist()
-graph_timeindex = tdata.geti_at_or_below_t(graph_timelist, graph_time)
+graph_timeindex = tdata.geti_from_t(graph_timelist, graph_time)
 graph_delay = 1
 if got_xrange != 1:
   graph_xmin = filelist.minx()
@@ -555,7 +555,7 @@ def set_graph_time(event, ent):
   global graph_timeindex
   global graph_timelist
   t = ent.get()
-  graph_timeindex = tdata.geti_at_or_below_t(graph_timelist, float(t))
+  graph_timeindex = tdata.geti_from_t(graph_timelist, float(t))
   graph_time = graph_timelist[graph_timeindex]
   replot()
 

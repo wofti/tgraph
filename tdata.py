@@ -37,17 +37,34 @@ def D(x):
   return dx
 
 ################################################################
-# find listindex at or below t
-def geti_at_or_below_t(timelist, t):
-  imax = len(timelist)
+# find listindex closest to t
+def geti_closest_to_t(timelist, t):
+  dtm = 1.1*abs(float(timelist[0]) - float(t))
   i = 0
   for time in timelist:
-    if time>=t:
+    dt = abs(float(time) - float(t))
+    if dt<dtm:
+      dtm = dt
+      im = i
+    i += 1
+  return im
+
+################################################################
+# find listindex at or closest to t
+def geti_from_t(timelist, t):
+  ni = len(timelist)
+  # try to find i by direct comparison
+  i = 0
+  for time in timelist:
+    if time == t:
+      im = i
       break
     i += 1
-  if i>=imax:
-    i=imax-1
-  return i
+  # if we found the exact time return it
+  if i<ni:
+    return im
+  # otherwise we compute i with closest time
+  return geti_closest_to_t(timelist, t)
 
 
 ################################################################
@@ -644,7 +661,7 @@ class tTimeFrameSet:
 
   # get time index i closest to t
   def geti_t(self, t):
-    return geti_at_or_below_t(self.timelist, t)
+    return geti_from_t(self.timelist, t)
 
   # get x,y,z, v from time
   def getx(self, time):
