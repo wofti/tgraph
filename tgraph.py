@@ -472,7 +472,8 @@ def axplot3d_at_time(filelist, canvas, ax, t):
     if len(tf) > 0:
       tstr = tf % t
       ax.set_title(tstr, loc='right')
-  if graph_legendOn == 1:
+  # Note: legend does not for surface. Is matplotlib broken???
+  if graph_legendOn == 1 and graph_plot_surface == 0:
     ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'])
   canvas.draw()
 
