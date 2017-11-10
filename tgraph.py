@@ -361,6 +361,7 @@ if got_vrange != 1:
   graph_vmax = filelist.maxv()
 graph_3dOn = 0
 graph_plot_surface = 0
+graph_plot_scatter = 0
 
 ######################################################################
 # functions
@@ -428,7 +429,8 @@ def axplot3d_at_time(filelist, canvas, ax, t):
   yscale = ax.get_yscale()
   zscale = ax.get_zscale()
   ax.clear()
-  for f in filelist.file:
+  for i in range(0, len(filelist.file)):
+    f = filelist.file[i]
     blocks = f.data.getblocks(t)
     if blocks < 2 and graph_plot_surface == 1:
       print('3D plot will work only with wireframe, because input data had no empty lines.')
@@ -442,8 +444,15 @@ def axplot3d_at_time(filelist, canvas, ax, t):
                       linewidth=0,antialiased=False,
                       label=f.name, cmap=cm.coolwarm, shade=1)
     else:
-      ax.plot_wireframe(x,y, v, rstride=graph_stride,cstride=graph_stride,
-                        label=f.name, cmap=cm.coolwarm)
+      if graph_plot_scatter == 1:
+        mark=str(graph_linemarkers['#'+str(i)])
+        if mark == '' or mark == 'None':
+          mark='o'
+        ax.scatter(x,y, v, label=f.name,
+                   color=graph_linecolors['#'+str(i)], marker=mark)
+      else:
+        ax.plot_wireframe(x,y, v, rstride=graph_stride,cstride=graph_stride,
+                          label=f.name, color=graph_linecolors['#'+str(i)])
   # this does not seem to work in 3d:
   #ax.set_xlim(xlim)
   #ax.set_ylim(ylim)
@@ -521,10 +530,27 @@ def toggle_wireframe_surface():
   global graph_3dOn
   global ax
   global graph_plot_surface
+  global graph_plot_scatter
   if graph_plot_surface == 1:
     graph_plot_surface = 0
   else:
     graph_plot_surface = 1
+  # ax = setup_axes(fig, graph_3dOn, ax)
+  replot()
+
+def toggle_wireframe_scatter():
+  global fig
+  global graph_3dOn
+  global ax
+  global graph_plot_surface
+  global graph_plot_scatter
+  if graph_plot_surface == 1:
+    graph_plot_scatter = 0
+    graph_plot_surface = 0
+  if graph_plot_scatter == 1:
+    graph_plot_scatter = 0
+  else:
+    graph_plot_scatter = 1
   # ax = setup_axes(fig, graph_3dOn, ax)
   replot()
 
@@ -911,8 +937,10 @@ optionsmenu.add_command(label="Select v-Columns", command=input_graph_vcolumns)
 optionsmenu.add_command(label="Toggle log/lin x", command=toggle_log_xscale)
 optionsmenu.add_command(label="Toggle log/lin y", command=toggle_log_yscale)
 optionsmenu.add_command(label="Toggle 2D/3D", command=toggle_2d_3d)
-optionsmenu.add_command(label="Toggle Wireframe/Surface",
+optionsmenu.add_command(label="Toggle 3D-Surface",
                         command=toggle_wireframe_surface)
+optionsmenu.add_command(label="Toggle 3D-Scatter",
+                        command=toggle_wireframe_scatter)
 optionsmenu.add_command(label="Toggle Labels", command=toggle_labels)
 optionsmenu.add_command(label="Toggle Legend", command=toggle_legend)
 #optionsmenu.add_command(label="Show Legend", command=draw_legend)
