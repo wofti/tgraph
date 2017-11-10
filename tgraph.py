@@ -392,7 +392,13 @@ def axplot2d_at_time(filelist, canvas, ax, t):
   ax.clear()
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
-    if str(graph_linewidths['#'+str(i)]) == '':
+    if graph_plot_scatter == 1:
+      mark=str(graph_linemarkers['#'+str(i)])
+      if mark == '' or mark == 'None':
+        mark='o'
+      ax.scatter(f.data.getx(t), f.data.getv(t), label=f.name,
+                 color=graph_linecolors['#'+str(i)], marker=mark)
+    elif str(graph_linewidths['#'+str(i)]) == '':
       ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
               color=graph_linecolors['#'+str(i)],
               linestyle=graph_linestyles['#'+str(i)],
