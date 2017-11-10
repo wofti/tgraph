@@ -943,11 +943,11 @@ optionsmenu.add_command(label="Select y-Columns", command=input_graph_ycolumns)
 optionsmenu.add_command(label="Select v-Columns", command=input_graph_vcolumns)
 optionsmenu.add_command(label="Toggle log/lin x", command=toggle_log_xscale)
 optionsmenu.add_command(label="Toggle log/lin y", command=toggle_log_yscale)
+optionsmenu.add_command(label="Toggle Line/Scatter",
+                        command=toggle_wireframe_scatter)
 optionsmenu.add_command(label="Toggle 2D/3D", command=toggle_2d_3d)
 optionsmenu.add_command(label="Toggle 3D-Surface",
                         command=toggle_wireframe_surface)
-optionsmenu.add_command(label="Toggle 3D-Scatter",
-                        command=toggle_wireframe_scatter)
 optionsmenu.add_command(label="Toggle Labels", command=toggle_labels)
 optionsmenu.add_command(label="Toggle Legend", command=toggle_legend)
 #optionsmenu.add_command(label="Show Legend", command=draw_legend)
