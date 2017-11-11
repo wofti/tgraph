@@ -1005,14 +1005,11 @@ optionsmenu.add_command(label="Toggle Legend", command=toggle_legend)
 menubar.add_cascade(label="Options", menu=optionsmenu)
 
 settingsmenu = Menu(menubar, tearoff=0)
-settingsmenu.add_command(label="Edit Settings", command=input_graph_settings)
+settingsmenu.add_command(label="Labels", command=input_graph_labels)
+settingsmenu.add_command(label="Legend", command=input_graph_legend)
+settingsmenu.add_command(label="Graph Settings", command=input_graph_settings)
 #settingsmenu.add_command(label="Edit rcParams", command=edit_mpl_rcParams)
 menubar.add_cascade(label="Settings", menu=settingsmenu)
-
-labelsmenu = Menu(menubar, tearoff=0)
-labelsmenu.add_command(label="Edit Labels", command=input_graph_labels)
-labelsmenu.add_command(label="Edit Legend", command=input_graph_legend)
-menubar.add_cascade(label="Labels", menu=labelsmenu)
 
 linesmenu = Menu(menubar, tearoff=0)
 linesmenu.add_command(label="Edit Line Colors",  command=input_graph_linecolors)
