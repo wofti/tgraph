@@ -371,6 +371,7 @@ exec('graph_colormap=cm.'+str(graph_settings['colormap']))
 
 ######################################################################
 # add some global vars to dictionary
+graph_settings['stride'] = graph_stride
 graph_settings['xmin'] = graph_xmin
 graph_settings['xmax'] = graph_xmax
 graph_settings['ymin'] = graph_ymin
@@ -848,6 +849,7 @@ def input_graph_settings():
   global ax
   global graph_settings  # dict. with options
   global graph_colormap
+  global graph_stride
   global graph_xmin
   global graph_xmax
   global graph_ymin
@@ -861,6 +863,7 @@ def input_graph_settings():
   if str(graph_settings['colormap']) != '':
     exec('global graph_colormap;' +
          'graph_colormap = cm.' + str(graph_settings['colormap']))
+  graph_stride = int(graph_settings['stride'])
   graph_xmin = float(graph_settings['xmin'])
   graph_xmax = float(graph_settings['xmax'])
   graph_ymin = float(graph_settings['ymin'])
