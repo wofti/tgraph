@@ -859,8 +859,8 @@ def input_graph_settings():
   # now get the user input back
   graph_settings = dialog.input
   if str(graph_settings['colormap']) != '':
-    exec('map=cm.'+str(graph_settings['colormap']))
-    graph_colormap = map
+    exec('global graph_colormap;' +
+         'graph_colormap = cm.' + str(graph_settings['colormap']))
   graph_xmin = float(graph_settings['xmin'])
   graph_xmax = float(graph_settings['xmax'])
   graph_ymin = float(graph_settings['ymin'])
