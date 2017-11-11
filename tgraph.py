@@ -45,7 +45,7 @@ import tdata
 
 ######################################################################
 # tgraph version number
-tgraph_version = "1.6"
+tgraph_version = "1.7"
 print('tgraph', tgraph_version)
 
 ######################################################################
@@ -272,6 +272,10 @@ graph_legend['frameon']      = mpl.rcParams['legend.frameon']
 graph_legend['framealpha']   = mpl.rcParams['legend.framealpha']
 graph_legend['handlelength'] = mpl.rcParams['legend.handlelength']
 
+# dictionary with settings for graph
+graph_settings = {}
+graph_settings['colormap'] = 'coolwarm'
+
 # dictionaries with lines colors, styles, markers and widths
 graph_linecolors = {}
 graph_linestyles = {}
@@ -362,6 +366,17 @@ if got_vrange != 1:
 graph_3dOn = 0
 graph_plot_surface = 0
 graph_plot_scatter = 0
+# graph_colormap =
+exec('graph_colormap=cm.'+str(graph_settings['colormap']))
+
+######################################################################
+# add some global vars to dictionary
+graph_settings['xmin'] = graph_xmin
+graph_settings['xmax'] = graph_xmax
+graph_settings['ymin'] = graph_ymin
+graph_settings['ymax'] = graph_ymax
+graph_settings['vmin'] = graph_vmin
+graph_settings['vmax'] = graph_vmax
 
 ######################################################################
 # functions
@@ -428,6 +443,7 @@ def axplot2d_at_time(filelist, canvas, ax, t):
 # plot into ax at time t, in 3d
 def axplot3d_at_time(filelist, canvas, ax, t):
   global graph_stride
+  global graph_colormap
   xlim = ax.get_xlim()
   ylim = ax.get_ylim()
   zlim = ax.get_zlim()
@@ -446,9 +462,14 @@ def axplot3d_at_time(filelist, canvas, ax, t):
     v=np.reshape(f.data.getv(t), reshaper)
     #print(x,y,v)
     if graph_plot_surface == 1:
-      ax.plot_surface(x,y, v, rstride=graph_stride,cstride=graph_stride, 
-                      linewidth=0,antialiased=False,
-                      label=f.name, cmap=cm.coolwarm, shade=1)
+      if str(graph_settings['colormap']) == '':
+        ax.plot_surface(x,y, v, rstride=graph_stride,cstride=graph_stride,
+                        linewidth=0, antialiased=False, label=f.name,
+                        color=graph_linecolors['#'+str(i)], shade=1)
+      else:
+        ax.plot_surface(x,y, v, rstride=graph_stride,cstride=graph_stride,
+                        linewidth=0, antialiased=False, label=f.name,
+                        cmap=graph_colormap, shade=1)
     else:
       if graph_plot_scatter == 1:
         mark=str(graph_linemarkers['#'+str(i)])
@@ -820,6 +841,36 @@ def input_graph_vcolumns():
   ax = setup_axes(fig, graph_3dOn, ax)
   replot()
 
+# use WTdialog to reset some settings
+def input_graph_settings():
+  global fig
+  global graph_3dOn
+  global ax
+  global graph_settings  # dict. with options
+  global graph_colormap
+  global graph_xmin
+  global graph_xmax
+  global graph_ymin
+  global graph_ymax
+  global graph_vmin
+  global graph_vmax
+  # get graph_labels
+  dialog = WTdialog("tgraph Settings", graph_settings)
+  # now get the user input back
+  graph_settings = dialog.input
+  if str(graph_settings['colormap']) != '':
+    exec('map=cm.'+str(graph_settings['colormap']))
+    graph_colormap = map
+  graph_xmin = float(graph_settings['xmin'])
+  graph_xmax = float(graph_settings['xmax'])
+  graph_ymin = float(graph_settings['ymin'])
+  graph_ymax = float(graph_settings['ymax'])
+  graph_vmin = float(graph_settings['vmin'])
+  graph_vmax = float(graph_settings['vmax'])
+  # change axes and then plot again
+  ax = setup_axes(fig, graph_3dOn, ax)
+  replot()
+
 # use WTdialog to reset some labels
 def input_graph_labels():
   global graph_labels  # dict. with options
@@ -953,10 +1004,14 @@ optionsmenu.add_command(label="Toggle Legend", command=toggle_legend)
 #optionsmenu.add_command(label="Show Legend", command=draw_legend)
 menubar.add_cascade(label="Options", menu=optionsmenu)
 
+settingsmenu = Menu(menubar, tearoff=0)
+settingsmenu.add_command(label="Edit Settings", command=input_graph_settings)
+#settingsmenu.add_command(label="Edit rcParams", command=edit_mpl_rcParams)
+menubar.add_cascade(label="Settings", menu=settingsmenu)
+
 labelsmenu = Menu(menubar, tearoff=0)
 labelsmenu.add_command(label="Edit Labels", command=input_graph_labels)
 labelsmenu.add_command(label="Edit Legend", command=input_graph_legend)
-#labelsmenu.add_command(label="Edit rcParams", command=edit_mpl_rcParams)
 menubar.add_cascade(label="Labels", menu=labelsmenu)
 
 linesmenu = Menu(menubar, tearoff=0)
