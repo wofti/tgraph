@@ -516,9 +516,7 @@ def replot():
   else:
     axplot3d_at_time(filelist, canvas, ax, graph_time)
   # print(ax.xaxis.tick_top())
-  if graph_axis_on == 1:
-    ax.set_axis_on()
-  else:
+  if graph_axis_on == 0:
     ax.set_axis_off()
   canvas.draw()
 
