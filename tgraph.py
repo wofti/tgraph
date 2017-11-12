@@ -275,6 +275,8 @@ graph_legend['handlelength'] = mpl.rcParams['legend.handlelength']
 graph_settings = {}
 graph_settings['colormap'] = 'coolwarm'
 graph_settings['linewidth'] = mpl.rcParams['lines.linewidth']
+graph_settings['antialiased'] = 0
+graph_settings['shade'] = 1
 
 # dictionary with settings for graph, where we need to setup axes after change
 graph_limits = {}
@@ -468,12 +470,14 @@ def axplot3d_at_time(filelist, canvas, ax, t):
     if graph_plot_surface == 1:
       if str(graph_settings['colormap']) == '':
         ax.plot_surface(x,y, v, rstride=graph_stride,cstride=graph_stride,
-                        linewidth=0, antialiased=False, label=f.name,
-                        color=graph_linecolors['#'+str(i)], shade=1)
+                        label=f.name, color=graph_linecolors['#'+str(i)],
+                        antialiased=int(graph_settings['antialiased']),
+                        shade=int(graph_settings['shade']))
       else:
         ax.plot_surface(x,y, v, rstride=graph_stride,cstride=graph_stride,
-                        linewidth=0, antialiased=False, label=f.name,
-                        cmap=graph_colormap, shade=1)
+                        label=f.name, cmap=graph_colormap,
+                        antialiased=int(graph_settings['antialiased']),
+                        shade=int(graph_settings['shade']))
     else:
       if graph_plot_scatter == 1:
         mark=str(graph_linemarkers['#'+str(i)])
