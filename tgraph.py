@@ -364,6 +364,7 @@ if got_vrange != 1:
   graph_vmin = filelist.minv()
   graph_vmax = filelist.maxv()
 graph_3dOn = 0
+graph_axis_on = 1
 graph_plot_surface = 0
 graph_plot_scatter = 0
 # graph_colormap =
@@ -384,6 +385,8 @@ graph_settings['vmax'] = graph_vmax
 
 # setup ax for either 2d or 3d plots
 def setup_axes(fig, graph_3dOn, ax=None):
+  global graph_axis_on
+  graph_axis_on = 1
   if ax != None:
     fig.delaxes(ax)
   if graph_3dOn == 0:
@@ -516,7 +519,7 @@ def replot():
   else:
     axplot3d_at_time(filelist, canvas, ax, graph_time)
   # print(ax.xaxis.tick_top())
- 
+
 # callbacks for some events
 def update_graph_time_entry():
   global tentry
@@ -541,6 +544,16 @@ def toggle_log_yscale():
     ax.set_yscale('log')
   else:
     ax.set_yscale('linear')
+  canvas.draw()
+
+def toggle_axis_on():
+  global graph_axis_on
+  if graph_axis_on == 1:
+    graph_axis_on = 0
+    ax.set_axis_off()
+  else:
+    graph_axis_on = 1
+    ax.set_axis_on()
   canvas.draw()
 
 def toggle_2d_3d():
@@ -995,6 +1008,7 @@ optionsmenu = Menu(menubar, tearoff=0)
 optionsmenu.add_command(label="Select x-Columns", command=input_graph_xcolumns)
 optionsmenu.add_command(label="Select y-Columns", command=input_graph_ycolumns)
 optionsmenu.add_command(label="Select v-Columns", command=input_graph_vcolumns)
+optionsmenu.add_command(label="Toggle Axis on/off", command=toggle_axis_on)
 optionsmenu.add_command(label="Toggle log/lin x", command=toggle_log_xscale)
 optionsmenu.add_command(label="Toggle log/lin y", command=toggle_log_yscale)
 optionsmenu.add_command(label="Toggle Line/Scatter",
