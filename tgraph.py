@@ -808,13 +808,13 @@ def input_graph_limits():
   # get graph_labels
   dialog = WTdialog("tgraph Limits", graph_limits)
   # now get the user input back
-  graph_settings = dialog.input
-  graph_xmin = float(graph_settings['xmin'])
-  graph_xmax = float(graph_settings['xmax'])
-  graph_ymin = float(graph_settings['ymin'])
-  graph_ymax = float(graph_settings['ymax'])
-  graph_vmin = float(graph_settings['vmin'])
-  graph_vmax = float(graph_settings['vmax'])
+  graph_limits = dialog.input
+  graph_xmin = float(graph_limits['xmin'])
+  graph_xmax = float(graph_limits['xmax'])
+  graph_ymin = float(graph_limits['ymin'])
+  graph_ymax = float(graph_limits['ymax'])
+  graph_vmin = float(graph_limits['vmin'])
+  graph_vmax = float(graph_limits['vmax'])
   # change axes and then plot again
   ax = setup_axes(fig, graph_3dOn, ax)
   replot()
@@ -828,12 +828,12 @@ def set_graph_limits():
   global graph_ymax
   global graph_vmin
   global graph_vmax
-  graph_settings['xmin'] = graph_xmin
-  graph_settings['xmax'] = graph_xmax
-  graph_settings['ymin'] = graph_ymin
-  graph_settings['ymax'] = graph_ymax
-  graph_settings['vmin'] = graph_vmin
-  graph_settings['vmax'] = graph_vmax
+  graph_limits['xmin'] = graph_xmin
+  graph_limits['xmax'] = graph_xmax
+  graph_limits['ymin'] = graph_ymin
+  graph_limits['ymax'] = graph_ymax
+  graph_limits['vmin'] = graph_vmin
+  graph_limits['vmax'] = graph_vmax
 
 # use WTdialog to set xcols
 def input_graph_xcolumns():
