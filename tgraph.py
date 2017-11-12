@@ -472,12 +472,12 @@ def axplot3d_at_time(filelist, canvas, ax, t):
         ax.plot_surface(x,y, v, rstride=graph_stride,cstride=graph_stride,
                         label=f.name, color=graph_linecolors['#'+str(i)],
                         antialiased=int(graph_settings['antialiased']),
-                        shade=int(graph_settings['shade']))
+                        shade=int(graph_settings['shade']), linewidth=0)
       else:
         ax.plot_surface(x,y, v, rstride=graph_stride,cstride=graph_stride,
                         label=f.name, cmap=graph_colormap,
                         antialiased=int(graph_settings['antialiased']),
-                        shade=int(graph_settings['shade']))
+                        shade=int(graph_settings['shade']), linewidth=0)
     else:
       if graph_plot_scatter == 1:
         mark=str(graph_linemarkers['#'+str(i)])
