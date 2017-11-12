@@ -385,8 +385,6 @@ graph_settings['vmax'] = graph_vmax
 
 # setup ax for either 2d or 3d plots
 def setup_axes(fig, graph_3dOn, ax=None):
-  global graph_axis_on
-  graph_axis_on = 1
   if ax != None:
     fig.delaxes(ax)
   if graph_3dOn == 0:
@@ -442,7 +440,6 @@ def axplot2d_at_time(filelist, canvas, ax, t):
       ax.set_title(tstr, loc='right')
   if graph_legendOn == 1:
     ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'])
-  canvas.draw()
 
 # plot into ax at time t, in 3d
 def axplot3d_at_time(filelist, canvas, ax, t):
@@ -506,7 +503,6 @@ def axplot3d_at_time(filelist, canvas, ax, t):
   # Note: legend does not work for surface. Is matplotlib broken???
   if graph_legendOn == 1 and graph_plot_surface == 0:
     ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'])
-  canvas.draw()
 
 def replot():
   global filelist
@@ -514,11 +510,17 @@ def replot():
   global ax
   global graph_time
   global graph_3dOn
+  global graph_axis_on
   if graph_3dOn == 0:
     axplot2d_at_time(filelist, canvas, ax, graph_time)
   else:
     axplot3d_at_time(filelist, canvas, ax, graph_time)
   # print(ax.xaxis.tick_top())
+  if graph_axis_on == 1:
+    ax.set_axis_on()
+  else:
+    ax.set_axis_off()
+  canvas.draw()
 
 # callbacks for some events
 def update_graph_time_entry():
@@ -550,11 +552,9 @@ def toggle_axis_on():
   global graph_axis_on
   if graph_axis_on == 1:
     graph_axis_on = 0
-    ax.set_axis_off()
   else:
     graph_axis_on = 1
-    ax.set_axis_on()
-  canvas.draw()
+  replot()
 
 def toggle_2d_3d():
   global fig
