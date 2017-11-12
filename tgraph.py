@@ -260,7 +260,6 @@ graph_labels['x-axis'] = ''
 graph_labels['y-axis'] = ''
 graph_labels['v-axis'] = ''
 graph_labels['fontsize'] = mpl.rcParams['font.size']
-graph_labels['linewidth'] = mpl.rcParams['lines.linewidth']
 graph_labels['timeformat'] = '%g'
 graph_legendOn = 0
 graph_legend = {}
@@ -275,6 +274,10 @@ graph_legend['handlelength'] = mpl.rcParams['legend.handlelength']
 # dictionary with settings for graph
 graph_settings = {}
 graph_settings['colormap'] = 'coolwarm'
+graph_settings['linewidth'] = mpl.rcParams['lines.linewidth']
+
+# dictionary with settings for graph, where we need to setup axes after change
+graph_limits = {}
 
 # dictionaries with lines colors, styles, markers and widths
 graph_linecolors = {}
@@ -371,14 +374,14 @@ graph_plot_scatter = 0
 exec('graph_colormap=cm.'+str(graph_settings['colormap']))
 
 ######################################################################
-# add some global vars to dictionary
+# add some global vars to dictionaries
 graph_settings['stride'] = graph_stride
-graph_settings['xmin'] = graph_xmin
-graph_settings['xmax'] = graph_xmax
-graph_settings['ymin'] = graph_ymin
-graph_settings['ymax'] = graph_ymax
-graph_settings['vmin'] = graph_vmin
-graph_settings['vmax'] = graph_vmax
+graph_limits['xmin'] = graph_xmin
+graph_limits['xmax'] = graph_xmax
+graph_limits['ymin'] = graph_ymin
+graph_limits['ymax'] = graph_ymax
+graph_limits['vmin'] = graph_vmin
+graph_limits['vmax'] = graph_vmax
 
 ######################################################################
 # functions
@@ -790,6 +793,48 @@ class WTdialog:
     #self.top.quit()
     self.top.destroy()
 
+# use WTdialog to reset some limits
+def input_graph_limits():
+  global fig
+  global graph_3dOn
+  global ax
+  global graph_limits  # dict. with options
+  global graph_xmin
+  global graph_xmax
+  global graph_ymin
+  global graph_ymax
+  global graph_vmin
+  global graph_vmax
+  # get graph_labels
+  dialog = WTdialog("tgraph Limits", graph_limits)
+  # now get the user input back
+  graph_settings = dialog.input
+  graph_xmin = float(graph_settings['xmin'])
+  graph_xmax = float(graph_settings['xmax'])
+  graph_ymin = float(graph_settings['ymin'])
+  graph_ymax = float(graph_settings['ymax'])
+  graph_vmin = float(graph_settings['vmin'])
+  graph_vmax = float(graph_settings['vmax'])
+  # change axes and then plot again
+  ax = setup_axes(fig, graph_3dOn, ax)
+  replot()
+
+# set graph_limits dict. from graph_xmin, graph_xmax, ...
+def set_graph_limits():
+  global graph_limits  # dict. with options
+  global graph_xmin
+  global graph_xmax
+  global graph_ymin
+  global graph_ymax
+  global graph_vmin
+  global graph_vmax
+  graph_settings['xmin'] = graph_xmin
+  graph_settings['xmax'] = graph_xmax
+  graph_settings['ymin'] = graph_ymin
+  graph_settings['ymax'] = graph_ymax
+  graph_settings['vmin'] = graph_vmin
+  graph_settings['vmax'] = graph_vmax
+
 # use WTdialog to set xcols
 def input_graph_xcolumns():
   global filelist
@@ -807,6 +852,7 @@ def input_graph_xcolumns():
     filelist.file[i].data.set_xcols(int(xcoldict['#'+str(i)])-1)
   graph_xmin = filelist.minx()
   graph_xmax = filelist.maxx()
+  set_graph_limits()
   print('(xmin, xmax) =', '(', graph_xmin, ',', graph_xmax, ')')
   ax = setup_axes(fig, graph_3dOn, ax)
   replot()
@@ -828,6 +874,7 @@ def input_graph_ycolumns():
     filelist.file[i].data.set_ycols(int(ycoldict['#'+str(i)])-1)
   graph_ymin = filelist.miny()
   graph_ymax = filelist.maxy()
+  set_graph_limits()
   print('(ymin, ymax) =', '(', graph_ymin, ',', graph_ymax, ')')
   ax = setup_axes(fig, graph_3dOn, ax)
   replot()
@@ -849,6 +896,7 @@ def input_graph_vcolumns():
     filelist.file[i].data.set_vcols(int(vcoldict['#'+str(i)])-1)
   graph_vmin = filelist.minv()
   graph_vmax = filelist.maxv()
+  set_graph_limits()
   print('(vmin, vmax) =', '(', graph_vmin, ',', graph_vmax, ')')
   ax = setup_axes(fig, graph_3dOn, ax)
   replot()
@@ -861,28 +909,16 @@ def input_graph_settings():
   global graph_settings  # dict. with options
   global graph_colormap
   global graph_stride
-  global graph_xmin
-  global graph_xmax
-  global graph_ymin
-  global graph_ymax
-  global graph_vmin
-  global graph_vmax
   # get graph_labels
   dialog = WTdialog("tgraph Settings", graph_settings)
   # now get the user input back
   graph_settings = dialog.input
+  mpl.rcParams['lines.linewidth'] = graph_settings['linewidth']
   if str(graph_settings['colormap']) != '':
     exec('global graph_colormap;' +
          'graph_colormap = cm.' + str(graph_settings['colormap']))
   graph_stride = int(graph_settings['stride'])
-  graph_xmin = float(graph_settings['xmin'])
-  graph_xmax = float(graph_settings['xmax'])
-  graph_ymin = float(graph_settings['ymin'])
-  graph_ymax = float(graph_settings['ymax'])
-  graph_vmin = float(graph_settings['vmin'])
-  graph_vmax = float(graph_settings['vmax'])
   # change axes and then plot again
-  ax = setup_axes(fig, graph_3dOn, ax)
   replot()
 
 # use WTdialog to reset some labels
@@ -1020,6 +1056,7 @@ settingsmenu = Menu(menubar, tearoff=0)
 settingsmenu.add_command(label="Select x-Columns", command=input_graph_xcolumns)
 settingsmenu.add_command(label="Select y-Columns", command=input_graph_ycolumns)
 settingsmenu.add_command(label="Select v-Columns", command=input_graph_vcolumns)
+settingsmenu.add_command(label="Edit Limits", command=input_graph_limits)
 settingsmenu.add_command(label="Edit Labels", command=input_graph_labels)
 settingsmenu.add_command(label="Edit Legend", command=input_graph_legend)
 settingsmenu.add_command(label="Graph Settings", command=input_graph_settings)
