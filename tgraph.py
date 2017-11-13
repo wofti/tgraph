@@ -933,7 +933,6 @@ def input_graph_labels():
   # now get the user input back
   graph_labels = dialog.input
   mpl.rcParams['font.size'] = graph_labels['fontsize']
-  mpl.rcParams['lines.linewidth'] = graph_labels['linewidth']
   replot()
 
 # use WTdialog to reset legend
