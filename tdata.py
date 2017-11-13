@@ -564,19 +564,19 @@ class tTimeFrameSet:
         # look for time
         (iscomment, foundtime, time0) = linetype(line, timestr)
         if foundtime == 1:
-          if prev_was_nl == 1:
-            nl_num -= 1
-          prev_was_nl = 0  
           # if we found time but dat is not empty write. We are at end
           # of timeframe.
           if dat != []:
+            if prev_was_nl == 0:
+              nl_num += 1
             pad_jagged_2D_list(dat)
             dat = np.array(dat)
-            self.timeframes.append(tTimeFrame(dat, time, blocks=nl_num+1))
+            self.timeframes.append(tTimeFrame(dat, time, blocks=nl_num))
             dat = []
-            nl_num = 0
-            prev_was_nl = 0
-            lnum = 1
+          # reset newline and line counters
+          nl_num = 0
+          prev_was_nl = 0
+          lnum = 1
           # save old time and then get new time
           time_o = time_n
           time_n = WT_atof(time0, strfl=tnum)
@@ -591,8 +591,8 @@ class tTimeFrameSet:
         elif iscomment == 1:
           pass
         elif line.isspace():  # e.g. if line == '\n':
-          # count '\n' but omit duplicates
-          if prev_was_nl == 0:
+          # count '\n' after some data, but omit duplicates
+          if prev_was_nl == 0 and dat != []:
             nl_num += 1
           prev_was_nl = 1
         else: # there is no time, so now we have a data row
@@ -606,9 +606,9 @@ class tTimeFrameSet:
       if dat != []:
         pad_jagged_2D_list(dat)
         dat = np.array(dat)
-        if prev_was_nl == 1:
-          nl_num -= 1
-        self.timeframes.append(tTimeFrame(dat, time, blocks=nl_num+1))
+        if prev_was_nl == 0:
+          nl_num += 1
+        self.timeframes.append(tTimeFrame(dat, time, blocks=nl_num))
     # make a list with times from all timeframes
     self.timelist = self.get_timelist()
 
