@@ -810,7 +810,7 @@ def input_graph_limits():
   global graph_ymax
   global graph_vmin
   global graph_vmax
-  # get graph_labels
+  # get graph_limits
   dialog = WTdialog("tgraph Limits", graph_limits)
   # now get the user input back
   graph_limits = dialog.input
@@ -914,7 +914,7 @@ def input_graph_settings():
   global graph_settings  # dict. with options
   global graph_colormap
   global graph_stride
-  # get graph_labels
+  # get graph_settings
   dialog = WTdialog("tgraph Settings", graph_settings)
   # now get the user input back
   graph_settings = dialog.input
@@ -928,17 +928,21 @@ def input_graph_settings():
 
 # use WTdialog to reset some labels
 def input_graph_labels():
+  global graph_labelsOn
   global graph_labels  # dict. with options
   # get graph_labels
   dialog = WTdialog("tgraph Labels", graph_labels)
   # now get the user input back
   graph_labels = dialog.input
   mpl.rcParams['font.size'] = graph_labels['fontsize']
+  # since we edited the labels switch them on now
+  graph_labelsOn = 1
   replot()
 
 # use WTdialog to reset legend
 def input_graph_legend():
   global filelist
+  global graph_legendOn
   global graph_legend # dict. with options
   # for legend
   dialog = WTdialog("tgraph Legend", graph_legend)
@@ -966,6 +970,8 @@ def input_graph_legend():
   mpl.rcParams['legend.frameon']      = graph_legend['frameon']
   mpl.rcParams['legend.framealpha']   = graph_legend['framealpha']
   mpl.rcParams['legend.handlelength'] = graph_legend['handlelength']
+  # since we edited the legend switch it on now
+  graph_legendOn = 1
   replot()
 
 # use WTdialog to reset legend
