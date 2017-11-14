@@ -268,7 +268,8 @@ graph_legend['loc']      = 'upper right'
 graph_legend['fancybox']     = mpl.rcParams['legend.fancybox']
 graph_legend['shadow']       = mpl.rcParams['legend.shadow']
 graph_legend['frameon']      = mpl.rcParams['legend.frameon']
-graph_legend['framealpha']   = mpl.rcParams['legend.framealpha']
+if mpl.__version__ > '1.4.2':
+  graph_legend['framealpha']   = mpl.rcParams['legend.framealpha']
 graph_legend['handlelength'] = mpl.rcParams['legend.handlelength']
 
 # dictionary with settings for graph
