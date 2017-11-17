@@ -430,7 +430,7 @@ def axplot2d_at_time(filelist, canvas, ax, t):
     else:
       ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
               color=graph_linecolors['#'+str(i)],
-              linewidth=graph_linewidths['#'+str(i)],
+              linewidth=float(graph_linewidths['#'+str(i)]),
               linestyle=graph_linestyles['#'+str(i)],
               marker=graph_linemarkers['#'+str(i)])
   ax.set_xlim(xlim)
@@ -475,14 +475,14 @@ def axplot3d_at_time(filelist, canvas, ax, t):
                         label=f.name, color=graph_linecolors['#'+str(i)],
                         antialiased=int(graph_settings['antialiased']),
                         shade=int(graph_settings['shade']),
-                        linewidth=graph_settings['linewidth'],
+                        linewidth=float(graph_settings['linewidth']),
                         edgecolor=graph_settings['edgecolor'])
       else:
         ax.plot_surface(x,y, v, rstride=graph_stride,cstride=graph_stride,
                         label=f.name, cmap=graph_colormap,
                         antialiased=int(graph_settings['antialiased']),
                         shade=int(graph_settings['shade']),
-                        linewidth=graph_settings['linewidth'],
+                        linewidth=float(graph_settings['linewidth']),
                         edgecolor=graph_settings['edgecolor'])
     else:
       if graph_plot_scatter == 1:
