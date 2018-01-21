@@ -374,6 +374,7 @@ graph_3dOn = 0
 graph_axis_on = 1
 graph_plot_surface = 0
 graph_plot_scatter = 0
+graph_clear_on_replot = 1
 # graph_colormap =
 exec('graph_colormap=cm.'+str(graph_settings['colormap']))
 
@@ -413,7 +414,6 @@ def axplot2d_at_time(filelist, canvas, ax, t):
   ylim = ax.get_ylim()
   xscale = ax.get_xscale()
   yscale = ax.get_yscale()
-  ax.clear()
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
     if graph_plot_scatter == 1:
@@ -458,7 +458,6 @@ def axplot3d_at_time(filelist, canvas, ax, t):
   xscale = ax.get_xscale()
   yscale = ax.get_yscale()
   zscale = ax.get_zscale()
-  ax.clear()
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
     blocks = f.data.getblocks(t)
@@ -524,6 +523,8 @@ def replot():
   global graph_time
   global graph_3dOn
   global graph_axis_on
+  if graph_clear_on_replot == 1:
+    ax.clear()
   if graph_3dOn == 0:
     axplot2d_at_time(filelist, canvas, ax, graph_time)
   else:
@@ -621,6 +622,14 @@ def toggle_legend():
     graph_legendOn = 0
   else:
     graph_legendOn = 1
+  replot()
+
+def toggle_clear_on_replot():
+  global graph_clear_on_replot
+  if graph_clear_on_replot == 1:
+    graph_clear_on_replot = 0
+  else:
+    graph_clear_on_replot = 1
   replot()
 
 def BT1_callback(event):
@@ -1065,6 +1074,7 @@ optionsmenu.add_command(label="Toggle 3D-Surface",
 optionsmenu.add_command(label="Toggle Labels", command=toggle_labels)
 optionsmenu.add_command(label="Toggle Legend", command=toggle_legend)
 #optionsmenu.add_command(label="Show Legend", command=draw_legend)
+optionsmenu.add_command(label="Toggle Replot-Mode", command=toggle_clear_on_replot)
 menubar.add_cascade(label="Options", menu=optionsmenu)
 
 settingsmenu = Menu(menubar, tearoff=0)
