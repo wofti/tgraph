@@ -1063,6 +1063,7 @@ menubar.add_cascade(label="File", menu=filemenu)
 
 # create more pulldown menus
 optionsmenu = Menu(menubar, tearoff=0)
+optionsmenu.add_command(label="Toggle Timeframe update/add", command=toggle_clear_on_replot)
 optionsmenu.add_command(label="Toggle Axis on/off", command=toggle_axis_on)
 optionsmenu.add_command(label="Toggle log/lin x", command=toggle_log_xscale)
 optionsmenu.add_command(label="Toggle log/lin y", command=toggle_log_yscale)
@@ -1074,7 +1075,6 @@ optionsmenu.add_command(label="Toggle 3D-Surface",
 optionsmenu.add_command(label="Toggle Labels", command=toggle_labels)
 optionsmenu.add_command(label="Toggle Legend", command=toggle_legend)
 #optionsmenu.add_command(label="Show Legend", command=draw_legend)
-optionsmenu.add_command(label="Toggle Replot-Mode", command=toggle_clear_on_replot)
 menubar.add_cascade(label="Options", menu=optionsmenu)
 
 settingsmenu = Menu(menubar, tearoff=0)
