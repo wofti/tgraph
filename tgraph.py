@@ -21,7 +21,8 @@ import sys
 # check python version
 if sys.version_info[0] < 3:
   from Tkinter import *
-  from ttk import *          # overrides some tkinter stuff
+  if sys.version_info[1] > 6:
+    from ttk import *        # overrides some tkinter stuff
   import tkFileDialog as filedialog
 else:
   from tkinter import *
@@ -267,14 +268,17 @@ graph_legend['fontsize'] = mpl.rcParams['font.size']
 graph_legend['loc']      = 'upper right'
 graph_legend['fancybox']     = mpl.rcParams['legend.fancybox']
 graph_legend['shadow']       = mpl.rcParams['legend.shadow']
-graph_legend['frameon']      = mpl.rcParams['legend.frameon']
 if mpl.__version__ > '1.4.2':
+  graph_legend['frameon']      = mpl.rcParams['legend.frameon']
   graph_legend['framealpha']   = mpl.rcParams['legend.framealpha']
 graph_legend['handlelength'] = mpl.rcParams['legend.handlelength']
 
 # dictionary with settings for graph
 graph_settings = {}
-graph_settings['colormap'] = 'coolwarm'
+if mpl.__version__ >= '1.4.2':
+  graph_settings['colormap'] = 'coolwarm'
+else:
+  graph_settings['colormap'] = 'jet'
 graph_settings['linewidth'] = mpl.rcParams['lines.linewidth']
 graph_settings['antialiased'] = 0
 graph_settings['shade'] = 1
@@ -307,7 +311,10 @@ def set_graph_globals_for_file_i(filelist, i):
   graph_legend['#'+str(i)] = f.name
   # can we use axes.prop_cycle ?
   if mpl.__version__ < '1.5.1': # use axes.color_cycle below Matplotlib 1.5.1
-    color_cycle = mpl.rcParams['axes.color_cycle']
+    if mpl.__version__ < '1.4.2':
+      color_cycle = [u'#1f77b4', u'#ff7f0e', u'#2ca02c', u'#d62728', u'#9467bd', u'#8c564b', u'#e377c2', u'#7f7f7f', u'#bcbd22', u'#17becf']
+    else:
+      color_cycle = mpl.rcParams['axes.color_cycle']
     ncolors = len(color_cycle)
     graph_linecolors['#'+str(i)] = color_cycle[i%ncolors]
   else: # use axes.prop_cycle for all other versions
