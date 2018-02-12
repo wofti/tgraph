@@ -417,10 +417,13 @@ def setup_axes(fig, graph_3dOn, ax=None):
 
 # plot into ax at time t
 def axplot2d_at_time(filelist, canvas, ax, t):
+  global graph_clear_on_replot
   xlim = ax.get_xlim()
   ylim = ax.get_ylim()
   xscale = ax.get_xscale()
   yscale = ax.get_yscale()
+  if graph_clear_on_replot == 1:
+    ax.clear()
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
     if graph_plot_scatter == 1:
@@ -459,12 +462,15 @@ def axplot2d_at_time(filelist, canvas, ax, t):
 def axplot3d_at_time(filelist, canvas, ax, t):
   global graph_stride
   global graph_colormap
+  global graph_clear_on_replot
   xlim = ax.get_xlim()
   ylim = ax.get_ylim()
   zlim = ax.get_zlim()
   xscale = ax.get_xscale()
   yscale = ax.get_yscale()
   zscale = ax.get_zscale()
+  if graph_clear_on_replot == 1:
+    ax.clear()
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
     blocks = f.data.getblocks(t)
@@ -530,8 +536,6 @@ def replot():
   global graph_time
   global graph_3dOn
   global graph_axis_on
-  if graph_clear_on_replot == 1:
-    ax.clear()
   if graph_3dOn == 0:
     axplot2d_at_time(filelist, canvas, ax, graph_time)
   else:
