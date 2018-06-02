@@ -334,6 +334,7 @@ def open_file():
   global ycol
   global vcol
   global timelabel_str
+  global graph_timelist
   fname = filedialog.askopenfilename(title='Enter Data File Name')
   if len(fname) == 0:  # if user presses cancel fname is () or '', so exit
     return
@@ -344,6 +345,8 @@ def open_file():
   # set cols for the last file added
   filelist.file[i].data.set_cols(xcol=xcol, ycol=ycol, zcol=2, vcol=vcol)
   set_graph_globals_for_file_i(filelist, i)
+  # update time min and max
+  graph_timelist = filelist.get_timelist()
 
 ######################################################################
 
