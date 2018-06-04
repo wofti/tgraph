@@ -105,7 +105,7 @@ TIPS
 	tgraph.py does not understand HDF5 format. However, we can plot HDF5
 	data (e.g. /SomeDat in file Psi.h5) with the help of h5dump:
 		h5dump -d /SomeDat -y -w 0 -o f.txt Psi.h5 ; tgraph.py f.txt
-	To find available datasets we can use: h5ls Psi.h5
+	To find available datasets we can use: h5ls -r Psi.h5
 	Often it is better to use h5tovtk and then plot the vtk file. For
 	example, to plot dataset "rho it=0" in file rho.xy.h5 we can use:
 		h5tovtk -d "rho it=0" -o f.vtk rho.xy.h5
