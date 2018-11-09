@@ -1168,7 +1168,7 @@ fig = mpl.figure.Figure(figsize=(7.25, 7), dpi=85)
 # Use matplotlib to make a tk.DrawingArea of fig and show it.
 # This need needs to come before making ax by: ax = Axes3D(fig)
 canvas = FigureCanvasTkAgg(fig, master=root)
-canvas.show()
+canvas.draw()
 canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 
 # setup the axes
