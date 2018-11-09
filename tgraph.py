@@ -36,7 +36,7 @@ from mpl_toolkits.mplot3d import  axes3d,Axes3D
 from matplotlib import cm
 # for tkinter
 mpl.use('TkAgg')
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 #from matplotlib.figure import Figure
 
 import numpy as np
@@ -1175,7 +1175,7 @@ canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
 ax = setup_axes(fig, graph_3dOn, None)
 
 # make matplotlib toolbar
-toolbar = NavigationToolbar2TkAgg(canvas, root)
+toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 #canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=1)
 canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
