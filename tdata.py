@@ -293,6 +293,120 @@ def load_vtk_STRUCTURED_POINTS_data(filename, timestr):
     return (data, WT_atof(time), blocks)
 
 
+# load data from sgrid vtk file for grids with non-uniform spacing
+def load_vtk_RECTILINEAR_GRID_data(filename, timestr):
+  with open(filename, 'rb') as f:
+    varname = ''
+    time = '0'
+    BINARY = 0
+    DATASET = ''
+    nx = 1
+    ny = 1
+    nz = 1
+    double_prec = 0
+    # go over lines until LOOKUP_TABLE
+    while True:
+      line = f.readline()
+      if not line:
+        break
+      (val,ok,EQsign) = getparameter(line.lower().decode('ascii'), 'variable')
+      if ok == 1:
+        varname = val
+        p = val.find(',')
+        if p >= 1:
+          varname = val[:p-1]
+      (val,ok,EQsign) = getparameter(line.lower().decode('ascii'), timestr)
+      if ok == 1:
+        time = val
+        p = val.find(',')
+        if p >= 1:
+          time = val[:p-1]
+      (val,ok,EQsign) = getparameter(line.decode('ascii'), 'BINARY')
+      if ok == 1:
+        BINARY = 1
+      (val,ok,EQsign) = getparameter(line.decode('ascii'), 'DATASET')
+      if ok == 1:
+        DATASET = val
+      (val,ok,EQsign) = getparameter(line.decode('ascii'), 'DIMENSIONS')
+      if ok == 1:
+        slist = val.split()
+        nx = int(slist[0])
+        ny = int(slist[1])
+        nz = int(slist[2])
+      (val,ok,EQsign) = getparameter(line.decode('ascii'), 'X_COORDINATES')
+      if ok == 1:
+        slist = val.split()
+        nX = int(slist[0])
+        p = val.find('double')
+        if p >= 0:
+          double_prec = 1
+        if BINARY == 1:
+          Xdata = read_raw_binary_vtk(f, nX, double_prec)
+        else:
+          Xdata = read_raw_text_vtk(f, nX)
+      (val,ok,EQsign) = getparameter(line.decode('ascii'), 'Y_COORDINATES')
+      if ok == 1:
+        slist = val.split()
+        nY = int(slist[0])
+        p = val.find('double')
+        if p >= 0:
+          double_prec = 1
+        if BINARY == 1:
+          Ydata = read_raw_binary_vtk(f, nY, double_prec)
+        else:
+          Ydata = read_raw_text_vtk(f, nY)
+      (val,ok,EQsign) = getparameter(line.decode('ascii'), 'Z_COORDINATES')
+      if ok == 1:
+        slist = val.split()
+        nZ = int(slist[0])
+        p = val.find('double')
+        if p >= 0:
+          double_prec = 1
+        if BINARY == 1:
+          Zdata = read_raw_binary_vtk(f, nZ, double_prec)
+        else:
+          Zdata = read_raw_text_vtk(f, nZ)
+      (val,ok,EQsign) = getparameter(line.decode('ascii'), 'SCALARS')
+      if ok == 1:
+        p = val.find('double')
+        if p >= 0:
+          double_prec = 1
+      p = line.decode('ascii').find('LOOKUP_TABLE')
+      if p >= 0:
+        break
+    # once we get here, we have read the ASCII header and now the data start
+    npoints = nx*ny*nz
+    if BINARY == 1:
+      vdata = read_raw_binary_vtk(f, npoints, double_prec)
+    else:
+      vdata = read_raw_text_vtk(f, npoints)
+    # now make x,y,z coords for all points
+    # first make empty numpy array of the correct type
+    if double_prec == 1:
+      xyzdata = np.empty(3*npoints)
+    else:
+      xyzdata = np.empty(3*npoints, dtype=np.float32)
+    # now insert coords
+    ijk = 0
+    for k in range(0,nZ):
+      for j in range(0,nY):
+        for i in range(0,nX):
+          xyzdata[ijk]   = Xdata[i]
+          xyzdata[ijk+1] = Ydata[j]
+          xyzdata[ijk+2] = Zdata[k]
+          ijk += 3
+    xyzdata = xyzdata.reshape(-1,3)
+    # figure out blocking for mesh grid
+    if nz == 1:
+      blocks = ny
+    elif ny == 1 or nx == 1:
+      blocks = nz
+    else:
+      blocks = nz
+    data = np.concatenate((xyzdata , vdata.reshape(-1,1)), axis=1)
+    return (data, WT_atof(time), blocks)
+
+
 # load data from bam vtk file for STRUCTURED_GRID (e.g. polar) grids
 def load_vtk_STRUCTURED_GRID_data(filename, timestr):
   with open(filename, 'rb') as f:
@@ -537,9 +651,10 @@ class tTimeFrameSet:
       # find DATASET type
       DATASET = determine_vtk_DATASET_type(filename)
       # print(DATASET)
-      p = DATASET.find('STRUCTURED_GRID')
-      if p >= 0:
+      if DATASET.find('STRUCTURED_GRID')>=0:
         (dat, time, bl) = load_vtk_STRUCTURED_GRID_data(filename, timestr)
+      elif DATASET.find('RECTILINEAR_GRID')>=0:
+        (dat, time, bl) = load_vtk_RECTILINEAR_GRID_data(filename, timestr)
       else:
         (dat, time, bl) = load_vtk_STRUCTURED_POINTS_data(filename, timestr)
       self.timeframes.append(tTimeFrame(dat, time, blocks=bl))
