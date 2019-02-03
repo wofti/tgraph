@@ -1,0 +1,26 @@
+# vtk DataFile Version 2.0
+variable psi, box 1, time 3.847968000e+03
+ASCII
+DATASET RECTILINEAR_GRID
+DIMENSIONS 4 3 1
+X_COORDINATES 4 float
+0 1 2.5 4.5
+Y_COORDINATES 3 float
+0 2 3
+Z_COORDINATES 1 float
+2.5
+POINT_DATA 12
+SCALARS scalars float
+LOOKUP_TABLE default
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
