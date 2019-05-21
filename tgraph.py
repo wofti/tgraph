@@ -389,6 +389,7 @@ graph_axis_on = 1
 graph_plot_surface = 0
 graph_plot_scatter = 0
 graph_clear_on_replot = 1
+graph_plot_closest_t = 1
 # graph_colormap =
 exec('graph_colormap=cm.'+str(graph_settings['colormap']))
 
@@ -431,21 +432,22 @@ def axplot2d_at_time(filelist, canvas, ax, t):
   yscale = ax.get_yscale()
   if graph_clear_on_replot == 1:
     ax.clear()
+  ct = graph_plot_closest_t
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
     if graph_plot_scatter == 1:
       mark=str(graph_linemarkers['#'+str(i)])
       if mark == '' or mark == 'None':
         mark='o'
-      ax.scatter(f.data.getx(t), f.data.getv(t), label=f.name,
+      ax.scatter(f.data.getx(t,ct), f.data.getv(t,ct), label=f.name,
                  color=graph_linecolors['#'+str(i)], marker=mark)
     elif str(graph_linewidths['#'+str(i)]) == '':
-      ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
+      ax.plot(f.data.getx(t,ct), f.data.getv(t,ct), label=f.name,
               color=graph_linecolors['#'+str(i)],
               linestyle=graph_linestyles['#'+str(i)],
               marker=graph_linemarkers['#'+str(i)])
     else:
-      ax.plot(f.data.getx(t), f.data.getv(t), label=f.name,
+      ax.plot(f.data.getx(t,ct), f.data.getv(t,ct), label=f.name,
               color=graph_linecolors['#'+str(i)],
               linewidth=float(graph_linewidths['#'+str(i)]),
               linestyle=graph_linestyles['#'+str(i)],
@@ -478,15 +480,16 @@ def axplot3d_at_time(filelist, canvas, ax, t):
   zscale = ax.get_zscale()
   if graph_clear_on_replot == 1:
     ax.clear()
+  ct = graph_plot_closest_t
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
     blocks = f.data.getblocks(t)
     if blocks < 2 and graph_plot_surface == 1:
       print('3D plot will work only with wireframe, because input data had no empty lines.')
     reshaper = (blocks, -1)
-    x=np.reshape(f.data.getx(t), reshaper)
-    y=np.reshape(f.data.gety(t), reshaper)
-    v=np.reshape(f.data.getv(t), reshaper)
+    x=np.reshape(f.data.getx(t,ct), reshaper)
+    y=np.reshape(f.data.gety(t,ct), reshaper)
+    v=np.reshape(f.data.getv(t,ct), reshaper)
     #print(x,y,v)
     if graph_plot_surface == 1:
       if str(graph_settings['colormap']) == '':
@@ -648,6 +651,14 @@ def toggle_clear_on_replot():
     graph_clear_on_replot = 0
   else:
     graph_clear_on_replot = 1
+  replot()
+
+def toggle_plot_closest_t():
+  global graph_plot_closest_t
+  if graph_plot_closest_t == 1:
+    graph_plot_closest_t = 0
+  else:
+    graph_plot_closest_t = 1
   replot()
 
 def BT1_callback(event):
@@ -1082,6 +1093,7 @@ menubar.add_cascade(label="File", menu=filemenu)
 # create more pulldown menus
 optionsmenu = Menu(menubar, tearoff=0)
 optionsmenu.add_command(label="Toggle Timeframe update/add", command=toggle_clear_on_replot)
+optionsmenu.add_command(label="Toggle Timeframe closest/exact", command=toggle_plot_closest_t)
 optionsmenu.add_command(label="Toggle Axis on/off", command=toggle_axis_on)
 optionsmenu.add_command(label="Toggle log/lin x", command=toggle_log_xscale)
 optionsmenu.add_command(label="Toggle log/lin y", command=toggle_log_yscale)

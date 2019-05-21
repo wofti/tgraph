@@ -51,7 +51,7 @@ def geti_closest_to_t(timelist, t):
 
 ################################################################
 # find listindex at or closest to t
-def geti_from_t(timelist, t):
+def geti_from_t(timelist, t, return_closest_t=1, tol=0.5):
   ni = len(timelist)
   # try to find i by direct comparison
   i = 0
@@ -63,8 +63,27 @@ def geti_from_t(timelist, t):
   # if we found the exact time return it
   if i<ni:
     return im
-  # otherwise we compute i with closest time
-  return geti_closest_to_t(timelist, t)
+  # otherwise we compute i with closest time or return a negative i
+  icl = geti_closest_to_t(timelist, t)
+  if return_closest_t == 1:
+    return icl
+  else:
+    if icl<ni-1:
+      ip = icl+1
+    else:
+      ip = icl
+    if icl>0:
+      im = icl-1
+    else:
+      im = icl
+    # get time step and error in time if we use time at i=icl
+    dt = 0.5* abs(timelist[ip] - timelist[im])
+    err = abs(timelist[icl] - t)
+    # compare err with dt
+    if err > dt * tol:
+      return -1
+    else:
+      return icl
 
 
 ################################################################
@@ -775,25 +794,40 @@ class tTimeFrameSet:
     return max(self.timelist)
 
   # get time index i closest to t
-  def geti_t(self, t):
-    return geti_from_t(self.timelist, t)
+  def geti_t(self, t, retcl=1):
+    return geti_from_t(self.timelist, t, retcl)
 
   # get x,y,z, v from time
-  def getx(self, time):
-    i = self.geti_t(time)
-    return self.getx_i(i)
-  def gety(self, time):
-    i = self.geti_t(time)
-    return self.gety_i(i)
-  def getz(self, time):
-    i = self.geti_t(time)
-    return self.getz_i(i)
-  def getv(self, time):
-    i = self.geti_t(time)
-    return self.getv_i(i)
-  def getblocks(self, time):
-    i = self.geti_t(time)
-    return self.getblocks_i(i)
+  def getx(self, time, retcl=1):
+    i = self.geti_t(time, retcl)
+    if(i>=0):
+      return self.getx_i(i)
+    else:
+      return []
+  def gety(self, time, retcl=1):
+    i = self.geti_t(time, retcl)
+    if(i>=0):
+      return self.gety_i(i)
+    else:
+      return []
+  def getz(self, time, retcl=1):
+    i = self.geti_t(time, retcl)
+    if(i>=0):
+      return self.getz_i(i)
+    else:
+      return []
+  def getv(self, time, retcl=1):
+    i = self.geti_t(time, retcl)
+    if(i>=0):
+      return self.getv_i(i)
+    else:
+      return []
+  def getblocks(self, time, retcl=1):
+    i = self.geti_t(time, retcl)
+    if(i>=0):
+      return self.getblocks_i(i)
+    else:
+      return []
 
   # get min and max of x
   def minx(self):
