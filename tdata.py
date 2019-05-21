@@ -77,7 +77,8 @@ def geti_from_t(timelist, t, return_closest_t=1, tol=0.5):
     else:
       im = icl
     # get time step and error in time if we use time at i=icl
-    dt = 0.5* abs(timelist[ip] - timelist[im])
+    dt = min(abs(timelist[ip] - timelist[icl]),
+             abs(timelist[im] - timelist[icl]))
     err = abs(timelist[icl] - t)
     # compare err with dt
     if err > dt * tol:
