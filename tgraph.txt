@@ -100,7 +100,7 @@ TIPS
 	individual movie frames as png-images. These png-images can then be
 	used to make a movie with a tool like avconv, e.g. if you have
 	frame_00.png ... frame_72.png you can use:
-		avconv -r 10 -i frame_%02d.png  movie.avi
+		ffmpeg -r 10 -i frame_%02d.png  movie.avi
 
 	tgraph.py does not understand HDF5 format. However, we can plot HDF5
 	data (e.g. /SomeDat in file Psi.h5) with the help of h5dump:
