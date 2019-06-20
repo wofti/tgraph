@@ -50,7 +50,7 @@ import tdata
 
 ######################################################################
 # tgraph version number
-tgraph_version = "1.7"
+tgraph_version = "1.8"
 print('tgraph', tgraph_version)
 
 ######################################################################
@@ -390,6 +390,7 @@ graph_plot_surface = 0
 graph_plot_scatter = 0
 graph_clear_on_replot = 1
 graph_plot_closest_t = 1
+graph_plot_grid = 1
 # graph_colormap =
 exec('graph_colormap=cm.'+str(graph_settings['colormap']))
 
@@ -466,6 +467,8 @@ def axplot2d_at_time(filelist, canvas, ax, t):
       ax.set_title(tstr, loc='right')
   if graph_legendOn == 1:
     ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'])
+  if graph_plot_grid == 1:
+    ax.grid(True)
 
 # plot into ax at time t, in 3d
 def axplot3d_at_time(filelist, canvas, ax, t):
@@ -580,6 +583,14 @@ def toggle_log_yscale():
   else:
     ax.set_yscale('linear')
   canvas.draw()
+
+def toggle_plot_grid():
+  global graph_plot_grid
+  if graph_plot_grid == 1:
+    graph_plot_grid = 0
+  else:
+    graph_plot_grid = 1
+  replot()
 
 def toggle_axis_on():
   global graph_axis_on
@@ -1097,6 +1108,7 @@ optionsmenu.add_command(label="Toggle Timeframe closest/exact", command=toggle_p
 optionsmenu.add_command(label="Toggle Axis on/off", command=toggle_axis_on)
 optionsmenu.add_command(label="Toggle log/lin x", command=toggle_log_xscale)
 optionsmenu.add_command(label="Toggle log/lin y", command=toggle_log_yscale)
+optionsmenu.add_command(label="Toggle Grid on/off", command=toggle_plot_grid)
 optionsmenu.add_command(label="Toggle Line/Scatter",
                         command=toggle_wireframe_scatter)
 optionsmenu.add_command(label="Toggle 2D/3D", command=toggle_2d_3d)
