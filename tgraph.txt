@@ -98,7 +98,7 @@ TIPS
 
 	In order to make a movie from an animation, tgraph.py can save
 	individual movie frames as png-images. These png-images can then be
-	used to make a movie with a tool like avconv, e.g. if you have
+	used to make a movie with a tool like ffmpeg, e.g. if you have
 	frame_00.png ... frame_72.png you can use:
 		ffmpeg -r 10 -i frame_%02d.png  movie.avi
 
