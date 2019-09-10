@@ -53,6 +53,11 @@ import tdata
 tgraph_version = "1.8"
 print('tgraph', tgraph_version)
 
+# get dir where tdata.py is found, and construct filename of tgraph.txt
+import os
+tdata_dir = os.path.dirname(tdata.__file__)
+tgraph_txt_file = os.path.join(tdata_dir, 'tgraph.txt')
+
 ######################################################################
 # default cols:
 xcol = 0
@@ -813,6 +818,28 @@ def about():
   button.pack(side=TOP)
   top1.mainloop()
 
+def help():
+  global tgraph_txt_file
+  top1 = Tk()
+  top1.wm_title("tgraph help")
+  str =  "   tgraph.txt for tgraph " + tgraph_version + ","
+  str += "   Copyright (C) 2015 Wolfgang Tichy.  "
+  l1 = Label(master=top1, text=str)
+  l1.pack(side=TOP, expand=1)
+  scrollbar = Scrollbar(master=top1)
+  scrollbar.pack(side=RIGHT, fill=Y)
+  text = Text(master=top1, wrap=WORD, yscrollcommand=scrollbar.set)
+  tgraph_txt = "file tgraph.txt not found!"
+  with open(tgraph_txt_file, 'r') as f:
+    tgraph_txt = f.read()
+  text.insert("1.0", tgraph_txt)
+  # text.config(state=DISABLED) # no editing in text window
+  text.pack()
+  scrollbar.config(command=text.yview)
+  button = Button(top1, text="Close", command=top1.destroy)
+  button.pack(side=TOP)
+  top1.mainloop()
+
 # simple dialog that opens window where we can enter values for a dictionary
 class WTdialog:
     # init input form, form is a dict. containing labels and values
@@ -1147,6 +1174,7 @@ menubar.add_cascade(label="Transformations", menu=transformationsmenu)
 # create help pulldown menu
 helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="About", command=about)
+helpmenu.add_command(label="Read help in tgraph.txt", command=help)
 menubar.add_cascade(label="Help", menu=helpmenu)
 
 # display the menu
