@@ -118,9 +118,9 @@ FILES
 INSTALLATION
 	Make a symbolic link to tgraph.py
 	(ln -s ~/tgraph/tgraph.py ~/bin/tgraph.py). Or copy both tgraph.py
-	and tdata.py into the same directory (e.g. ~/bin) and make tgraph.py
-	executable (chmod a+x tgraph.py). For the help menu to work,
-	tgraph.txt should also be in this same directory.
+	and tdata.py into the same directory (e.g. ~/bin) and make sure
+	that tgraph.py is executable (chmod a+x tgraph.py). For the help menu
+	to work, tgraph.txt should also be in this same directory.
 
 	Since tgraph.py is written in python, you also need to install python,
 	plus the python packages tkinter, tkinter.ttk, matplotlib and numpy.
