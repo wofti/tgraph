@@ -378,17 +378,17 @@ graph_timelist = filelist.get_timelist()
 graph_timeindex = tdata.geti_from_t(graph_timelist, graph_time)
 graph_delay = 1
 if got_xrange != 1:
-  graph_xmin = filelist.minx()
-  graph_xmax = filelist.maxx()
+  graph_xmin = tdata.inf_to_1e300(filelist.minx())
+  graph_xmax = tdata.inf_to_1e300(filelist.maxx())
 if got_yrange != 1:
-  graph_ymin = filelist.miny()
-  graph_ymax = filelist.maxy()
+  graph_ymin = tdata.inf_to_1e300(filelist.miny())
+  graph_ymax = tdata.inf_to_1e300(filelist.maxy())
 #if got_zrange != 1:
-  #graph_zmin = filelist.minz()
-  #graph_zmax = filelist.maxz()
+  #graph_zmin = tdata.inf_to_1e300(filelist.minz())
+  #graph_zmax = tdata.inf_to_1e300(filelist.maxz())
 if got_vrange != 1:
-  graph_vmin = filelist.minv()
-  graph_vmax = filelist.maxv()
+  graph_vmin = tdata.inf_to_1e300(filelist.minv())
+  graph_vmax = tdata.inf_to_1e300(filelist.maxv())
 graph_3dOn = 0
 graph_axis_on = 1
 graph_plot_surface = 0
@@ -936,8 +936,8 @@ def input_graph_xcolumns():
   xcoldict = dialog.input
   for i in range(0, len(filelist.file)):
     filelist.file[i].data.set_xcols(int(xcoldict['#'+str(i)])-1)
-  graph_xmin = filelist.minx()
-  graph_xmax = filelist.maxx()
+  graph_xmin = tdata.inf_to_1e300(filelist.minx())
+  graph_xmax = tdata.inf_to_1e300(filelist.maxx())
   set_graph_limits()
   print('(xmin, xmax) =', '(', graph_xmin, ',', graph_xmax, ')')
   ax = setup_axes(fig, graph_3dOn, ax)
@@ -958,8 +958,8 @@ def input_graph_ycolumns():
   ycoldict = dialog.input
   for i in range(0, len(filelist.file)):
     filelist.file[i].data.set_ycols(int(ycoldict['#'+str(i)])-1)
-  graph_ymin = filelist.miny()
-  graph_ymax = filelist.maxy()
+  graph_ymin = tdata.inf_to_1e300(filelist.miny())
+  graph_ymax = tdata.inf_to_1e300(filelist.maxy())
   set_graph_limits()
   print('(ymin, ymax) =', '(', graph_ymin, ',', graph_ymax, ')')
   ax = setup_axes(fig, graph_3dOn, ax)
@@ -980,8 +980,8 @@ def input_graph_vcolumns():
   vcoldict = dialog.input
   for i in range(0, len(filelist.file)):
     filelist.file[i].data.set_vcols(int(vcoldict['#'+str(i)])-1)
-  graph_vmin = filelist.minv()
-  graph_vmax = filelist.maxv()
+  graph_vmin = tdata.inf_to_1e300(filelist.minv())
+  graph_vmax = tdata.inf_to_1e300(filelist.maxv())
   set_graph_limits()
   print('(vmin, vmax) =', '(', graph_vmin, ',', graph_vmax, ')')
   ax = setup_axes(fig, graph_3dOn, ax)

@@ -170,6 +170,26 @@ def WT_atof(str, strfl=0.0):
       str1 = str1[:-1]
   return fl
 
+################################################################
+# replace all inf in array x by 1e300
+def inf_in_numpyarray_to_1e300(x):
+  maxx = np.nanmax(x)
+  minx = np.nanmin(x)
+  if maxx==np.inf:
+    x[x==+np.inf] = +1e300
+  if minx==-np.inf:
+    x[x==-np.inf] = -1e300
+  return x
+
+################################################################
+# replace inf by 1e300 in number x
+def inf_to_1e300(x):
+  if x==np.inf:
+    return 1e300
+  elif x==-np.inf:
+    return -1e300
+  else:
+    return x
 
 ################################################################
 # pad jagged 2D list Ls
