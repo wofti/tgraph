@@ -908,7 +908,6 @@ class tTimeFrameSet:
     return m0
   def maxv(self):
     m0 = np.nanmax(self.getv_i(0))
-    print('m0 =', m0)
     for i in range(1, len(self.timelist)):
       m = np.nanmax(self.getv_i(i))
       if m>m0:
