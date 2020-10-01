@@ -832,64 +832,65 @@ class tTimeFrameSet:
 
   # get min and max of x
   def minx(self):
-    m0 = self.getx_i(0).min()
+    m0 = np.nanmin(self.getx_i(0))
     for i in range(1, len(self.timelist)):
-      m = self.getx_i(i).min()
+      m = np.nanmin(self.getx_i(i))
       if m<m0:
         m0 = m
     return m0
   def maxx(self):
-    m0 = self.getx_i(0).max()
+    m0 = np.nanmax(self.getx_i(0))
     for i in range(1, len(self.timelist)):
-      m = self.getx_i(i).max()
+      m = np.nanmax(self.getx_i(i))
       if m>m0:
         m0 = m
     return m0
 
   # get min and max of y
   def miny(self):
-    m0 = self.gety_i(0).min()
+    m0 = np.nanmin(self.gety_i(0))
     for i in range(1, len(self.timelist)):
-      m = self.gety_i(i).min()
+      m = np.nanmin(self.gety_i(i))
       if m<m0:
         m0 = m
     return m0
   def maxy(self):
-    m0 = self.gety_i(0).max()
+    m0 = np.nanmax(self.gety_i(0))
     for i in range(1, len(self.timelist)):
-      m = self.gety_i(i).max()
+      m = np.nanmax(self.gety_i(i))
       if m>m0:
         m0 = m
     return m0
 
   # get min and max of z
   def minz(self):
-    m0 = self.getz_i(0).min()
+    m0 = np.nanmin(self.getz_i(0))
     for i in range(1, len(self.timelist)):
-      m = self.getz_i(i).min()
+      m = np.nanmin(self.getz_i(i))
       if m<m0:
         m0 = m
     return m0
   def maxz(self):
-    m0 = self.getz_i(0).max()
+    m0 = np.nanmax(self.getz_i(0))
     for i in range(1, len(self.timelist)):
-      m = self.getz_i(i).max()
+      m = np.nanmax(self.getz_i(i))
       if m>m0:
         m0 = m
     return m0
 
   # get min and max of v
   def minv(self):
-    m0 = self.getv_i(0).min()
+    m0 = np.nanmin(self.getv_i(0))
     for i in range(1, len(self.timelist)):
-      m = self.getv_i(i).min()
+      m = np.nanmin(self.getv_i(i))
       if m<m0:
         m0 = m
     return m0
   def maxv(self):
-    m0 = self.getv_i(0).max()
+    m0 = np.nanmax(self.getv_i(0))
+    print('m0 =', m0)
     for i in range(1, len(self.timelist)):
-      m = self.getv_i(i).max()
+      m = np.nanmax(self.getv_i(i))
       if m>m0:
         m0 = m
     return m0
