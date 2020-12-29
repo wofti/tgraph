@@ -78,7 +78,7 @@ TIPS
 	we can plot it like this:
 		sed 's/9:time/9:Zeit/' rho.x.asc > f ; tgraph.py f
 
-	To plot Cactus .asc files it is often best to use the word
+	Yet, to plot Cactus .asc files it is often best to use the word
 	"iteration" as timelabel, e.g.:
 		tgraph.py -t "iteration" -c 10:13 rho.x.asc
 
