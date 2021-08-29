@@ -7,8 +7,8 @@ INSTALLATION
 
 	Since tgraph.py is written in python, you also need to install python,
 	plus the python packages tkinter, tkinter.ttk, matplotlib and numpy.
-	To get all these on a Debian system, it should suffice to type:
-		apt-get install python-matplotlib
+	To get all these on a new Debian system, it should suffice to type:
+		apt-get install python3-matplotlib
 
 	tgraph.py was written for python3, but it will also run
 	with python2, only the terminal output will be uglier due to
