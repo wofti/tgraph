@@ -116,20 +116,21 @@ FILES
 	same directory as tgraph.py, usually the ~/bin directory.
 
 INSTALLATION
-	Make a symbolic link to tgraph.py
-	(ln -s ~/tgraph/tgraph.py ~/bin/tgraph.py). Or copy both tgraph.py
-	and tdata.py into the same directory (e.g. ~/bin) and make sure
-	that tgraph.py is executable (chmod a+x tgraph.py). For the help menu
-	to work, tgraph.txt should also be in this same directory.
+	Make a symbolic link to tgraph.py, e.g. by entering:
+		ln -s ~/tgraph/tgraph.py ~/bin/tgraph.py
+	Or copy both tgraph.py, tdata.py and tgraph.txt into the same
+	directory (e.g. ~/bin). Also make sure that tgraph.py is executable
+	(chmod a+x tgraph.py).
 
 	Since tgraph.py is written in python, you also need to install python,
-	plus the python packages tkinter, tkinter.ttk, matplotlib and numpy.
-	To get all these on a new Debian system, it should suffice to type:
-		apt-get install python3-matplotlib
+	plus the python packages tkinter, tkinter.ttk, numpy and matplotlib.
+	To get all these on a current Debian system, it suffices to enter:
+		apt install python3-matplotlib
 
-	tgraph.py was written for python3, but it will also run
-	with python2, only the terminal output will be uglier due to
-	differences in the print function between python versions.
+	tgraph.py was written for python3, but it will also run	with python2.
+	The version it uses depends on which version the command python
+	points to. On a current Debian system this should be set by:
+		apt install python-is-python3
 
 AUTHORS
 	tgraph.py was written by Wolfgang Tichy.
