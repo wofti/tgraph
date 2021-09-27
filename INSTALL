@@ -1,8 +1,8 @@
 INSTALLATION
 	Make a symbolic link to tgraph.py, e.g. by entering:
 		ln -s ~/tgraph/tgraph.py ~/bin/tgraph.py
-	Or copy both tgraph.py, tdata.py and tgraph.txt into the same
-	directory (e.g. ~/bin). Also make sure that tgraph.py is executable
+	Or copy tgraph.py, tdata.py and tgraph.txt into the same directory
+	(e.g. ~/bin). Also make sure that tgraph.py is executable
 	(chmod a+x tgraph.py).
 
 	Since tgraph.py is written in python, you also need to install python,
