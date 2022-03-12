@@ -110,6 +110,14 @@ TIPS
 	example, to plot dataset "rho it=0" in file rho.xy.h5 we can use:
 		h5tovtk -d "rho it=0" -o f.vtk rho.xy.h5
 		tgraph.py -c 1:2:4 f.vtk
+	E.g. to plot data columns 1 and 2 of a CoRe DB data file data.h5, we
+	first make vtk files with one data column each. Then we can plot
+	these two by combining them (using braces):
+		h5tovtk -d rh_22/Rh_l2_m2_r00800.txt -y 0 -o f0.vtk  data.h5
+		h5tovtk -d rh_22/Rh_l2_m2_r00800.txt -y 1 -o f1.vtk  data.h5
+		tgraph.py -c 4:8 { f0.vtk f1.vtk }
+	Note that any vtk file contains x,y,z,data. Thus we are always
+	interested in plotting the 4th column of any single vtk file.
 
 FILES
 	tgraph.py imports tdata.py . To find it, tdata.py should be in the
