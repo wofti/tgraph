@@ -12,6 +12,8 @@ DESCRIPTION
 	blocks with different y-coordinates). It can also show 3D plots of
 	2D VTK datafiles in legacy format of type STRUCTURED_POINTS (where
 	one of the 3D DIMENSIONS has size 1) or of type STRUCTURED_GRID.
+	Such VTK files contain 4 columns: x,y,z,data. Thus one is usually
+	interested in plotting the 4th column of VTK files.
 
 OPTIONS
 	{ FILE... }
@@ -90,10 +92,10 @@ TIPS
 	them by reading the matplotlib documentation.
 
 	If we click on "Transform Columns", we can transform data columns in
-	each file. E.g. to set column 3 to twice column 2 plus sin(t), we
+	each file. E.g. to add column 3 with twice column 2 plus sin(t), we
 	can just enter "c[3] = 2*c[2] + sin(t)" in the pop-up window.
 	For the derivative we enter "c[3] = D(c[2])/D(c[1])".
-	In order to then plot column 3 we can click on "Select v-Columns" and
+	In order to then plot column 3 click on "Select v-Columns" and
 	enter "3".
 
 	In order to make a movie from an animation, tgraph.py can save
@@ -116,8 +118,8 @@ TIPS
 		h5tovtk -d rh_22/Rh_l2_m2_r00800.txt -y 0 -o f0.vtk  data.h5
 		h5tovtk -d rh_22/Rh_l2_m2_r00800.txt -y 1 -o f1.vtk  data.h5
 		tgraph.py -c 4:8 { f0.vtk f1.vtk }
-	Note that any vtk file contains x,y,z,data. Thus we are always
-	interested in plotting the 4th column of any single vtk file.
+	Each VTK file contains: x,y,z,data. This is why we plot colums 4 and
+	8 of the combined { f0.vtk f1.vtk }.
 
 FILES
 	tgraph.py imports tdata.py . To find it, tdata.py should be in the
