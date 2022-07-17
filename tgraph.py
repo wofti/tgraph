@@ -50,7 +50,7 @@ import tdata
 
 ######################################################################
 # tgraph version number
-tgraph_version = "1.8"
+tgraph_version = "1.9"
 print('tgraph', tgraph_version)
 
 # get dir where tdata.py is found, and construct filename of tgraph.txt
@@ -275,6 +275,7 @@ graph_legendOn = 0
 graph_legend = {}
 graph_legend['fontsize'] = mpl.rcParams['font.size']
 graph_legend['loc']      = 'upper right'
+graph_legend['ncol']     = 1
 graph_legend['fancybox']     = mpl.rcParams['legend.fancybox']
 graph_legend['shadow']       = mpl.rcParams['legend.shadow']
 if mpl.__version__ > '1.4.2':
@@ -478,7 +479,8 @@ def axplot2d_at_time(filelist, canvas, ax, t):
       tstr = tf % t
       ax.set_title(tstr, loc='right')
   if graph_legendOn == 1:
-    ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'])
+    ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'],
+              ncol=graph_legend['ncol'])
   if graph_plot_grid == 1:
     ax.grid(True)
 
@@ -552,7 +554,8 @@ def axplot3d_at_time(filelist, canvas, ax, t):
       ax.set_title(tstr, loc='right')
   # Note: legend does not work for surface. Is matplotlib broken???
   if graph_legendOn == 1 and graph_plot_surface == 0:
-    ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'])
+    ax.legend(fontsize=graph_legend['fontsize'], loc=graph_legend['loc'],
+              ncol=graph_legend['ncol'])
 
 def replot():
   global filelist
@@ -1058,6 +1061,8 @@ def input_graph_legend():
       s = s.replace(')', ' ')
       l = s.split(',')
       graph_legend['loc'] = [ float(l[0]), float(l[1]) ]
+  # make graph_legend['ncol'] an int
+  graph_legend['ncol'] = int(graph_legend['ncol'])
   # set some things in mpl.rcParams
   mpl.rcParams['legend.fancybox']     = graph_legend['fancybox']
   mpl.rcParams['legend.shadow']       = graph_legend['shadow']
