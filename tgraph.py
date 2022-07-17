@@ -300,6 +300,7 @@ graph_limits = {}
 graph_linecolors = {}
 graph_linestyles = {}
 graph_linemarkers = {}
+graph_linemarkersizes = {}
 graph_linewidths = {}
 
 # dictionaries with transformations
@@ -314,6 +315,7 @@ def set_graph_globals_for_file_i(filelist, i):
   global graph_linecolors
   global graph_linestyles
   global graph_linemarkers
+  global graph_linemarkersizes
   global graph_linewidths
   global graph_coltrafos
   f = filelist.file[i]
@@ -332,7 +334,9 @@ def set_graph_globals_for_file_i(filelist, i):
     graph_linecolors['#'+str(i)] = cycle_list[i%ncolors]['color']
   graph_linestyles['#'+str(i)] = '-'
   marker = mpl.rcParams['lines.marker']
+  markersize = mpl.rcParams['lines.markersize']
   graph_linemarkers['#'+str(i)] = marker
+  graph_linemarkersizes['#'+str(i)] = markersize
   graph_linewidths['#'+str(i)] = ''
   graph_coltrafos['#'+str(i)] = ''
 
@@ -441,6 +445,7 @@ def axplot2d_at_time(filelist, canvas, ax, t):
   ct = graph_plot_closest_t
   for i in range(0, len(filelist.file)):
     f = filelist.file[i]
+    msiz=graph_linemarkersizes['#'+str(i)]
     if graph_plot_scatter == 1:
       mark=str(graph_linemarkers['#'+str(i)])
       if mark == '' or mark == 'None':
@@ -451,13 +456,15 @@ def axplot2d_at_time(filelist, canvas, ax, t):
       ax.plot(f.data.getx(t,ct), f.data.getv(t,ct), label=f.name,
               color=graph_linecolors['#'+str(i)],
               linestyle=graph_linestyles['#'+str(i)],
-              marker=graph_linemarkers['#'+str(i)])
+              marker=graph_linemarkers['#'+str(i)],
+              markersize=msiz)
     else:
       ax.plot(f.data.getx(t,ct), f.data.getv(t,ct), label=f.name,
               color=graph_linecolors['#'+str(i)],
               linewidth=float(graph_linewidths['#'+str(i)]),
               linestyle=graph_linestyles['#'+str(i)],
-              marker=graph_linemarkers['#'+str(i)])
+              marker=graph_linemarkers['#'+str(i)],
+              markersize=msiz)
   ax.set_xlim(xlim)
   ax.set_ylim(ylim)
   ax.set_xscale(xscale)
@@ -1085,6 +1092,14 @@ def input_graph_linemarkers():
   graph_linemarkers = dialog.input
   replot()
 
+# use WTdialog to reset line markers
+def input_graph_linemarkersizes():
+  global filelist
+  global graph_linemarkersizes # dict. with options
+  dialog = WTdialog("tgraph Line Markersizes", graph_linemarkersizes)
+  graph_linemarkersizes = dialog.input
+  replot()
+
 # use WTdialog to reset line widths
 def input_graph_linewidths():
   global filelist
@@ -1161,6 +1176,7 @@ linesmenu = Menu(menubar, tearoff=0)
 linesmenu.add_command(label="Edit Line Colors",  command=input_graph_linecolors)
 linesmenu.add_command(label="Edit Line Styles",  command=input_graph_linestyles)
 linesmenu.add_command(label="Edit Line Markers", command=input_graph_linemarkers)
+linesmenu.add_command(label="Edit Line Markersizes", command=input_graph_linemarkersizes)
 linesmenu.add_command(label="Edit Line Widths",  command=input_graph_linewidths)
 menubar.add_cascade(label="Lines", menu=linesmenu)
 
