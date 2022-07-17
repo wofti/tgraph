@@ -1033,6 +1033,9 @@ def input_graph_legend():
   global graph_legendOn
   global graph_legend # dict. with options
   # for legend
+  # convert graph_legend['loc'] to str, which is undone below
+  graph_legend['loc'] = str(graph_legend['loc'])
+  # now update graph_legend
   dialog = WTdialog("tgraph Legend", graph_legend)
   graph_legend = dialog.input
   # save names
@@ -1041,6 +1044,9 @@ def input_graph_legend():
     f.name = graph_legend['#'+str(i)]
   # Check what loc has. It could be a string, an int, or a coordinate tuple.
   s = graph_legend['loc']
+  s = s.rstrip()
+  s = s.lstrip()
+  graph_legend['loc'] = s
   if s.isdigit():
     graph_legend['loc'] = int(s)
   else:
