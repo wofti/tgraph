@@ -41,6 +41,7 @@ try:
   from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk as NavToolbar
 except:
   from matplotlib.backends.backend_tkagg import NavigationToolbar2TkAgg as NavToolbar
+# since "import matplotlib as mpl" does not import figure we get it explicitly
 from matplotlib.figure import Figure
 
 import numpy as np
