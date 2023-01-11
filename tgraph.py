@@ -41,7 +41,7 @@ try:
   from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk as NavToolbar
 except:
   from matplotlib.backends.backend_tkagg import NavigationToolbar2TkAgg as NavToolbar
-#from matplotlib.figure import Figure
+from matplotlib.figure import Figure
 
 import numpy as np
 
@@ -1246,7 +1246,7 @@ de.insert(0, "1")
 
 ######################################################################
 # make figure fig
-fig = mpl.figure.Figure(figsize=(7.25, 7), dpi=85)
+fig = Figure(figsize=(7.25, 7), dpi=85)
 
 # Use matplotlib to make a tk.DrawingArea of fig and show it.
 # This need needs to come before making ax by: ax = Axes3D(fig)
