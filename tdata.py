@@ -706,7 +706,7 @@ class tTimeFrameSet:
 
   # read the data from a text file and append to self.timeframes
   def append_textfile_data(self, filename, timestr):
-    with open(filename, 'r') as f:
+    with open(filename, 'r', encoding='ISO-8859-1') as f:
     #f = open(filename, 'r')
       dat = []
       time = 0
