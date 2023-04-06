@@ -22,6 +22,9 @@ from numpy import arccos, ceil, frexp, radians, arccosh, copysign, exp, log, \
 import numpy as np
 import struct
 
+# only needed to check python version
+import sys
+
 ################################################################
 # return 2nd order diff of 1d numpy array
 # we can get dy/dx from D(y)/D(x)
@@ -706,8 +709,13 @@ class tTimeFrameSet:
 
   # read the data from a text file and append to self.timeframes
   def append_textfile_data(self, filename, timestr):
-    with open(filename, 'r', encoding='ISO-8859-1') as f:
-    #f = open(filename, 'r')
+    # check python version
+    if sys.version_info[0] < 3:
+      open_latin1 = lambda fname,mode: open(fname,mode)
+    else:
+      open_latin1 = lambda fname,mode: open(fname,mode, encoding='ISO-8859-1')
+    # open file as latin1=ISO-8859-1 if we have python3
+    with open_latin1(filename, 'r') as f:
       dat = []
       time = 0
       time_n = -1e+300 # new time found in file
