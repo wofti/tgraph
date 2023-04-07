@@ -711,11 +711,11 @@ class tTimeFrameSet:
   def append_textfile_data(self, filename, timestr):
     # check python version
     if sys.version_info[0] < 3:
-      open_latin1 = lambda fname,mode: open(fname,mode)
+      open_noerr = lambda fname,mode: open(fname,mode)
     else:
-      open_latin1 = lambda fname,mode: open(fname,mode, encoding='ISO-8859-1')
-    # open file as latin1=ISO-8859-1 if we have python3
-    with open_latin1(filename, 'r') as f:
+      open_noerr = lambda fname,mode: open(fname,mode, errors='ignore')
+    # open file and ignore encoding errors if we have python3
+    with open_noerr(filename, 'r') as f:
       dat = []
       time = 0
       time_n = -1e+300 # new time found in file
