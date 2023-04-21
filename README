@@ -1,8 +1,18 @@
 tgraph.py - plot 1D and 2D data files
--------------------------------------
+=====================================
 
-Help and documentation is in the file tgraph.txt.
+Installation:
+-------------
+For installation see the file INSTALL.
 
+
+Help:
+-----
+More help and documentation is in the file tgraph.txt.
+
+
+Plotting examples:
+------------------
 Example to plot columns 1,2 of a text data file in ygraph format:
 tgraph.py -c 1:2 example-data/psi.X0
 
