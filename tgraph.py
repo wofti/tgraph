@@ -587,18 +587,26 @@ def draw_legend():
   canvas.draw()
 
 def toggle_log_xscale():
+  global ax
   if ax.get_xscale() == 'linear':
     ax.set_xscale('log')
   else:
     ax.set_xscale('linear')
-  canvas.draw()
+  # since matplotlib 3.6.3 (and possibly earlier)
+  # canvas.draw()
+  # doesn't plot correctly anymore, so now we call replot()
+  replot()
 
 def toggle_log_yscale():
+  global ax
   if ax.get_yscale() == 'linear':
     ax.set_yscale('log')
   else:
     ax.set_yscale('linear')
-  canvas.draw()
+  # since matplotlib 3.6.3 (and possibly earlier)
+  # canvas.draw()
+  # doesn't plot correctly anymore, so now we call replot()
+  replot()
 
 def toggle_plot_grid():
   global graph_plot_grid
