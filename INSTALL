@@ -9,6 +9,8 @@ INSTALLATION
 	plus the python packages tkinter, tkinter.ttk, numpy and matplotlib.
 	To get all these on a current Debian system, it suffices to enter:
 		apt install python3-matplotlib
+	On most supercomputers it suffices to enter:
+		module load anaconda
 
 	tgraph.py was written for python3, but it will also run	with python2.
 	The version it uses depends on which version the command python
