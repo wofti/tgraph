@@ -122,8 +122,8 @@ TIPS
 	8 of the combined { f0.vtk f1.vtk }.
 
 FILES
-	tgraph.py imports tdata.py . To find it, tdata.py should be in the
-	same directory as tgraph.py, usually the ~/bin directory.
+	tgraph.py imports tdata.py and can display tgraph.txt . All three
+	files must be in the same directory, for tgraph to work properly.
 
 INSTALLATION
 	Make a symbolic link to tgraph.py, e.g. by entering:
