@@ -91,6 +91,40 @@ def geti_from_t(timelist, t, return_closest_t=1, tol=0.5):
 
 
 ################################################################
+# find start of a line that contains one parameter/value pair
+def getparline_start(strng, offset=0, EQsymb='='):
+  eq = strng.find(EQsymb, offset)
+  if eq >= 0:
+    start = strng.rfind('\n', offset, eq)
+    #print('eq =', eq, 'start =', start)
+    if start < 0:
+      start = 0
+    else:
+      start = start+1
+    return start, eq
+  return len(strng), -1
+
+################################################################
+# find start/end of a line that contains one parameter/value pair
+def getparline_start_end(strng, offset=0, EQsymb='='):
+  start, eq = getparline_start(strng, offset, EQsymb)
+  if eq<0:
+    return start, eq, -1
+  start2, eq2 = getparline_start(strng, eq+len(EQsymb), EQsymb)
+  print(start, eq, start2, eq2)
+  if eq2 < 0:
+    end = len(strng)
+  else:
+    end = start2-1
+  return start, eq, end
+
+################################################################
+# find a line that contains one parameter/value pair
+def getparline(strng, offset=0, EQsymb='='):
+  start, eq, newoffset = getparline_start_end(strng, offset, EQsymb)
+  return strng[start:newoffset].strip(), newoffset
+
+################################################################
 # find and get value of a parameter
 def getparameter(line, par, EQsymb='='):
   val = ''
