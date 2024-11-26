@@ -111,7 +111,7 @@ def getparline_start_end(strng, offset=0, EQsymb='='):
   if eq<0:
     return start, eq, -1
   start2, eq2 = getparline_start(strng, eq+len(EQsymb), EQsymb)
-  print(start, eq, start2, eq2)
+  #print(start, eq, start2, eq2)
   if eq2 < 0:
     end = len(strng)
   else:
