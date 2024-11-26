@@ -92,7 +92,7 @@ def geti_from_t(timelist, t, return_closest_t=1, tol=0.5):
 
 ################################################################
 # find and get value of a parameter
-def getparameter(line, par):
+def getparameter(line, par, EQsymb='='):
   val = ''
   ok = 0
   EQsign = 0
@@ -110,8 +110,8 @@ def getparameter(line, par):
     afterpar2 = afterpar.lstrip()
     if len(afterpar2) > 0:
       # if '=' is there
-      if afterpar2[0] == '=':
-        afterpar2 = afterpar2[1:]
+      if afterpar2[0:len(EQsymb)] == EQsymb:
+        afterpar2 = afterpar2[len(EQsymb):]
         val = afterpar2.lstrip()
         EQsign = 1
       # if we have a space instead
