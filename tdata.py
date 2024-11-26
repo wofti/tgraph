@@ -96,9 +96,9 @@ def getparline_start(strng, offset=0, EQsymb='='):
   eq = strng.find(EQsymb, offset)
   if eq >= 0:
     start = strng.rfind('\n', offset, eq)
-    #print('eq =', eq, 'start =', start)
+    #print('getparline_start:  start =', start, 'eq =', eq)
     if start < 0:
-      start = 0
+      start = 0 # start=0 means we didn't find a '\n' left of the '='
     else:
       start = start+1
     return start, eq
@@ -110,12 +110,17 @@ def getparline_start_end(strng, offset=0, EQsymb='='):
   start, eq = getparline_start(strng, offset, EQsymb)
   if eq<0:
     return start, eq, -1
+  # try to find end by looking for next Eqn, by looking for next '='
   start2, eq2 = getparline_start(strng, eq+len(EQsymb), EQsymb)
-  #print(start, eq, start2, eq2)
+  #print('getparline_start_end:', start, eq, start2, eq2)
   if eq2 < 0:
     end = len(strng)
   else:
     end = start2-1
+  # if no valid start2 was found we go one Eqn further to find end
+  if start2==0 and offset>0 and eq2>=0:
+    start3, eq3, end3 = getparline_start_end(strng, eq2+len(EQsymb), EQsymb)
+    end = end3
   return start, eq, end
 
 ################################################################
