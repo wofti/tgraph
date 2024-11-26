@@ -122,7 +122,7 @@ def getparline_start_end(strng, offset=0, EQsymb='='):
 # find a line that contains one parameter/value pair
 def getparline(strng, offset=0, EQsymb='='):
   start, eq, newoffset = getparline_start_end(strng, offset, EQsymb)
-  return strng[start:newoffset].strip(), newoffset
+  return strng[start:newoffset], newoffset
 
 ################################################################
 # find and get value of a parameter
