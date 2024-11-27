@@ -124,7 +124,13 @@ def getparline_start_end(strng, offset=0, EQsymb='='):
   return start, eq, end
 
 ################################################################
-# find a line that contains one parameter/value pair
+# Find a line that contains one parameter/value pair
+# To find all pars in a string with many eqns use it like this:
+#    off = 0
+#    while(True):
+#        Eqstr, off = tdata.getparline(Eqns, off, '==')
+#        if off<0: break
+#        print(off, Eqstr)
 def getparline(strng, offset=0, EQsymb='='):
   start, eq, newoffset = getparline_start_end(strng, offset, EQsymb)
   return strng[start:newoffset], newoffset
