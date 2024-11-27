@@ -91,6 +91,11 @@ def geti_from_t(timelist, t, return_closest_t=1, tol=0.5):
 
 
 ################################################################
+# func for debugging str positions
+def debug_str_slice(strng, p0, l):
+  return '[' + str(p0) + ']' + strng[p0:p0+l]
+
+################################################################
 # find start of a line that contains one parameter/value pair
 def getparline_start(strng, offset=0, EQsymb='='):
   eq = strng.find(EQsymb, offset)
@@ -98,9 +103,11 @@ def getparline_start(strng, offset=0, EQsymb='='):
     start = strng.rfind('\n', offset, eq)
     #print('getparline_start:  start =', start, 'eq =', eq)
     if start < 0:
-      start = 0 # start=0 means we didn't find a '\n' left of the '='
+      start = offset # start=offset means we didn't find a '\n' left of the '='
     else:
       start = start+1
+    #print('getparline_start:  start =', debug_str_slice(strng,start,9),
+    #      'eq =', debug_str_slice(strng,eq,9))
     return start, eq
   return len(strng), -1
 
@@ -111,16 +118,19 @@ def getparline_start_end(strng, offset=0, EQsymb='='):
   if eq<0:
     return start, eq, -1
   # try to find end by looking for next Eqn, by looking for next '='
-  start2, eq2 = getparline_start(strng, eq+len(EQsymb), EQsymb)
-  #print('getparline_start_end:', start, eq, start2, eq2)
+  offset2 = eq+len(EQsymb)
+  start2, eq2 = getparline_start(strng, offset2, EQsymb)
   if eq2 < 0:
     end = len(strng)
   else:
     end = start2-1
+  #print('getparline_start_end:', start, eq, start2, eq2, ' end =', end)
   # if no valid start2 was found we go one Eqn further to find end
-  if start2==0 and offset>0 and eq2>=0:
+  if start2==offset2 and eq2>=0:
+    #print('recurse:')
     start3, eq3, end3 = getparline_start_end(strng, eq2+len(EQsymb), EQsymb)
-    end = end3
+    #print('->', start3, eq3, end3, debug_str_slice(strng,start3,9))
+    end = start3-1
   return start, eq, end
 
 ################################################################
