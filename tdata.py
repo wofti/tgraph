@@ -146,6 +146,14 @@ def getparline(strng, offset=0, EQsymb='='):
   return strng[start:newoffset], newoffset
 
 ################################################################
+# get the name of a parameter
+def getparametername(strng, offset=0, EQsymb='='):
+  pl,off2 = getparline(strng, offset, EQsymb)
+  name = pl.slpit(EQsymb)[0]
+  name = name.strip()
+  return name
+
+################################################################
 # find and get value of a parameter
 def getparameter(line, par, EQsymb='='):
   val = ''
