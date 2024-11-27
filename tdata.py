@@ -149,7 +149,7 @@ def getparline(strng, offset=0, EQsymb='='):
 # get the name of a parameter
 def getparametername(strng, offset=0, EQsymb='='):
   pl,off2 = getparline(strng, offset, EQsymb)
-  name = pl.slpit(EQsymb)[0]
+  name = pl.split(EQsymb)[0]
   name = name.strip()
   return name
 
