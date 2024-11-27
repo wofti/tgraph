@@ -191,6 +191,8 @@ def linetype(line, timestr='time'):
   iscomment = 0
   foundtime = 0
   time = ''
+  if len(line) == 0:
+    return (iscomment, foundtime, time)
   # look for comments
   lstart = line.lstrip()
   if len(lstart) == 0:
