@@ -258,6 +258,7 @@ if len(filelist.file) == 0:
 ######################################################################
 # root window for app
 root = Tk()
+#root.tk.call('tk', 'scaling', 2.0)  # make all tk widgets and fonts bigger
 root.wm_title("tgraph")
 
 ######################################################################
