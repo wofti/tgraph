@@ -144,6 +144,18 @@ INSTALLATION
 	points to. On a current Debian system this should be set by:
 		apt install python-is-python3
 
+TWEAKS
+	matplotlib reads its default configuration from /etc/matplotlibrc or
+	.config/matplotlib/matplotlibrc
+	You can edit or create these files to change any default matplotlib
+	style such as line colors (see axes.prop_cycle) or font sizes (see
+	font.size).
+
+	On some desktops running under Wayland, tkinter fonts & widgets are
+	too small on HiDPI displays. To fix this you can uncomment the line
+	#root.tk.call('tk', 'scaling', 2.0)
+	in tgraph.py
+
 AUTHORS
 	tgraph.py was written by Wolfgang Tichy.
 
