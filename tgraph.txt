@@ -151,10 +151,10 @@ TWEAKS
 	style such as line colors (see axes.prop_cycle) or font sizes (see
 	font.size).
 
-	On some desktops running under Wayland, tkinter fonts & widgets are
-	too small on HiDPI displays. To fix this you can uncomment the line
+	On some faulty Wayland desktops, tkinter fonts & widgets can be too
+	small on HiDPI displays. You can uncomment the line
 	#root.tk.call('tk', 'scaling', 2.0)
-	in tgraph.py
+	in tgraph.py to magnify, if the desktop cannot be configured well.
 
 AUTHORS
 	tgraph.py was written by Wolfgang Tichy.
