@@ -152,9 +152,9 @@ TWEAKS
 	font.size).
 
 	On some faulty Wayland desktops, tkinter fonts & widgets can be too
-	small on HiDPI displays. You can uncomment the line
+	small on HiDPI displays. To magnify you can try to uncomment the line
 	#root.tk.call('tk', 'scaling', 2.0)
-	in tgraph.py to magnify, if the desktop cannot be configured well.
+	in tgraph.py, if the desktop is not properly configurable.
 
 AUTHORS
 	tgraph.py was written by Wolfgang Tichy.
