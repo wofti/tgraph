@@ -49,9 +49,9 @@ OPTIONS
 		Mark each point.
 
 EXAMPLES
-	select columns 1,2 in file1 and columns 1,4 of file2,file3 added
+	select columns 1,2 in file1 and columns 2,4 of file2,file3 added
 	together:
-		tgraph.py -c 1:2 file1 -c 1:4 { file2 file3 }
+		tgraph.py -c 1:2 file1 -c 2:4 { file2 file3 }
 
 	select cols 1,2,4 from t1.vtk,t2.vtk,t3.vtk containing one timeframe
 	each:
